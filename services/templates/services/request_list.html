@@ -8,7 +8,7 @@
       <li>
         <strong>{{ request.category }}</strong> -
         {{ request.city }} |
-        {% trans request.status %} |
+        {{ request.get_status_display }} |
         {{ request.created_at|date:"Y-m-d H:i" }}
       </li>
     {% empty %}

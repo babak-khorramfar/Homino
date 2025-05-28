@@ -1,8 +1,16 @@
+{% load i18n %}
+
 <!DOCTYPE html>
 <html lang="fa">
 <head>
     <meta charset="UTF-8">
     <title>{% trans "Homino" %}</title>
+
+    {% if user.is_authenticated %}
+        <p>{{ user.username }} | <a href="{% url 'logout' %}">Logout</a></p>
+    {% else %}
+        <p><a href="{% url 'login' %}">Login</a></p>
+    {% endif %}
 </head>
 <body>
     <header>

@@ -1,8 +1,8 @@
 from django.urls import path
-from . import views
+from .views import register, service_list, request_list, create_service_request
 
 urlpatterns = [
-    path("", views.service_list, name="service_list"),  # نمایش لیست سرویس‌ها
-    path("requests/", views.request_list, name="request_list"),
-    path("requests/new/", views.request_create, name="request_create"),
+    path("categories/", service_list, name="service_list"),
+    path("requests/", request_list, name="request_list"),
+    path("requests/new/", create_service_request, name="create_service_request"),
 ]

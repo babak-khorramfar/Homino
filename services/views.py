@@ -6,6 +6,10 @@ from django.utils.translation import gettext_lazy as _
 from .models import ServiceCategory
 from .models import ServiceRequest
 from .forms import ServiceRequestForm
+from .decorators import user_is_customer
+from django.contrib.auth.views import LoginView
+from django.urls import reverse
+from .models import UserProfile
 
 
 def home(request):
@@ -23,6 +27,16 @@ def register(request):
     return render(request, "registration/register.html", {"form": form})
 
 
+class CustomLoginView(LoginView):
+    def get_success_url(self):
+        profile = self.request.user.profile
+        if profile.user_type == UserProfile.UserType.CUSTOMER:
+            return reverse("service_list")  # یا هر آدرس مناسب برای مشتری
+        elif profile.user_type == UserProfile.UserType.PROVIDER:
+            return reverse("request_list")  # یا صفحه سفارش‌های مرتبط با تخصص متخصص
+        return reverse("home")  # fallback
+
+
 def service_list(request):
     categories = ServiceCategory.objects.all()
     return render(request, "services/service_list.html", {"categories": categories})
@@ -30,7 +44,8 @@ def service_list(request):
 
 @login_required
 def request_list(request):
-    requests = ServiceRequest.objects.all().order_by("-created_at")
+    user = request.user
+    requests = ServiceRequest.objects.filter(customer=user)
     return render(request, "services/request_list.html", {"requests": requests})
 
 
@@ -49,6 +64,7 @@ def request_create(request):
 
 
 @login_required
+@user_is_customer
 def create_service_request(request):
     if request.method == "POST":
         form = ServiceRequestForm(request.POST)

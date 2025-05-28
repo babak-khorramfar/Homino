@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-28 11:14+0330\n"
+"POT-Creation-Date: 2025-05-28 17:58+0330\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,52 +26,109 @@ msgstr "فارسی"
 msgid "English"
 msgstr "انگلیسی"
 
-#: .\services\models.py:7
-msgid "Category Name"
-msgstr "دسته بندی"
-
-#: .\services\models.py:8 .\services\models.py:36
-msgid "Description"
-msgstr "توضیحات"
-
-#: .\services\models.py:16
-msgid "Pending"
-msgstr ""
-
-#: .\services\models.py:17
-msgid "Offered"
-msgstr ""
-
-#: .\services\models.py:18
-msgid "Accepted"
-msgstr ""
-
-#: .\services\models.py:19
-msgid "Completed"
-msgstr ""
-
-#: .\services\models.py:26
+#: .\services\forms.py:10 .\services\models.py:8
 msgid "Customer"
 msgstr ""
 
-#: .\services\models.py:32
+#: .\services\forms.py:11
+msgid "Service Provider"
+msgstr ""
+
+#: .\services\forms.py:13 .\services\forms.py:23
+msgid "User Type"
+msgstr ""
+
+#: .\services\forms.py:19
+msgid "Username"
+msgstr ""
+
+#: .\services\forms.py:20
+msgid "Email"
+msgstr ""
+
+#: .\services\forms.py:21
+msgid "Password"
+msgstr ""
+
+#: .\services\forms.py:22
+msgid "Confirm Password"
+msgstr ""
+
+#: .\services\forms.py:41
 msgid "Service Category"
 msgstr ""
 
-#: .\services\models.py:34
+#: .\services\forms.py:42
 msgid "City"
 msgstr ""
 
-#: .\services\models.py:35
+#: .\services\forms.py:43
 msgid "Address"
 msgstr ""
 
-#: .\services\models.py:41
-msgid "Status"
+#: .\services\forms.py:44
+msgid "Description"
+msgstr "توضیحات"
+
+#: .\services\models.py:9
+msgid "Provider"
 msgstr ""
 
-#: .\services\models.py:43
-msgid "Created At"
+#: .\services\models.py:36
+msgid "Pending"
+msgstr ""
+
+#: .\services\models.py:37
+msgid "Offered"
+msgstr ""
+
+#: .\services\models.py:38
+msgid "Accepted"
+msgstr ""
+
+#: .\services\models.py:39
+msgid "Completed"
+msgstr ""
+
+#: .\services\templates\registration\login.html:4
+#: .\services\templates\registration\login.html:8
+msgid "Login"
+msgstr ""
+
+#: .\services\templates\registration\register.html:3
+#: .\services\templates\registration\register.html:7
+msgid "Register"
+msgstr ""
+
+#: .\services\templates\services\create_request.html:5
+#: .\services\templates\services\request_form.html:5
+msgid "Submit a New Service Request"
+msgstr ""
+
+#: .\services\templates\services\create_request.html:9
+#: .\services\templates\services\request_form.html:9
+msgid "Submit"
+msgstr ""
+
+#: .\services\templates\services\request_list.html:5
+msgid "Service Requests"
+msgstr ""
+
+#: .\services\templates\services\request_list.html:15
+msgid "No service requests found."
+msgstr ""
+
+#: .\services\templates\services\service_list.html:6
+#: .\services\templates\services\service_list.html:9
+msgid "Service Categories"
+msgstr ""
+
+#: .\services\templates\services\service_list.html:14
+msgid "No categories found."
+msgstr ""
+
+#: .\templates\base.html:5 .\templates\base.html:15 .\templates\base.html:26
+msgid "Homino"
 msgstr ""
 
 #: .\venv\Lib\site-packages\django\contrib\messages\apps.py:16
@@ -1297,3 +1354,6 @@ msgstr ""
 #: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:236
 msgid "Connect, get help, or contribute"
 msgstr ""
+
+#~ msgid "Category Name"
+#~ msgstr "دسته بندی"
