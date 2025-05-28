@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import ServiceCategory
 from .models import ServiceRequest
+from .forms import ServiceRequestForm
 
 
 def home(request):
@@ -29,3 +30,17 @@ def service_list(request):
 def request_list(request):
     requests = ServiceRequest.objects.all().order_by("-created_at")
     return render(request, "services/request_list.html", {"requests": requests})
+
+
+@login_required
+def request_create(request):
+    if request.method == "POST":
+        form = ServiceRequestForm(request.POST)
+        if form.is_valid():
+            service_request = form.save(commit=False)
+            service_request.customer = request.user
+            service_request.save()
+            return redirect("request_list")
+    else:
+        form = ServiceRequestForm()
+    return render(request, "services/request_form.html", {"form": form})
