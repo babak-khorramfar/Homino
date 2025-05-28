@@ -1,7 +1,0 @@
-services:
-  - type: web
-    name: homino
-    env: python
-    buildCommand: ""
-    startCommand: gunicorn homino.wsgi:application
-    autoDeploy: true
