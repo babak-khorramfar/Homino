@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import UserProfile
 from django.utils.translation import gettext_lazy as _
+from .models import ServiceRequest
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -30,3 +31,15 @@ class CustomUserCreationForm(UserCreationForm):
             user_profile.user_type = self.cleaned_data["user_type"]
             user_profile.save()
         return user
+
+
+class ServiceRequestForm(forms.ModelForm):
+    class Meta:
+        model = ServiceRequest
+        fields = ["category", "city", "address", "description"]
+        labels = {
+            "category": _("Service Category"),
+            "city": _("City"),
+            "address": _("Address"),
+            "description": _("Description"),
+        }
