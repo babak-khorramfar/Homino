@@ -147,3 +147,6 @@ LANGUAGES = [
     ("fa", _("Persian")),
     ("en", _("English")),
 ]
+
+
+LOGIN_URL = "/login/"

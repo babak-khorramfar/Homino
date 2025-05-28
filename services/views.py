@@ -27,6 +27,7 @@ def service_list(request):
     return render(request, "services/service_list.html", {"categories": categories})
 
 
+@login_required
 def request_list(request):
     requests = ServiceRequest.objects.all().order_by("-created_at")
     return render(request, "services/request_list.html", {"requests": requests})
