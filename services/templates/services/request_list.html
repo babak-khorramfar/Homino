@@ -1,17 +1,18 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
-  <h2>Service Requests</h2>
+  <h2>{% trans "Service Requests" %}</h2>
   <ul>
     {% for request in requests %}
       <li>
-        <strong>{{ request.category }}</strong> - 
-        {{ request.city }} | 
-        {{ request.status }} | 
+        <strong>{{ request.category }}</strong> -
+        {{ request.city }} |
+        {% trans request.status %} |
         {{ request.created_at|date:"Y-m-d H:i" }}
       </li>
     {% empty %}
-      <li>No service requests found.</li>
+      <li>{% trans "No service requests found." %}</li>
     {% endfor %}
   </ul>
 {% endblock %}

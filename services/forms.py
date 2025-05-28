@@ -1,9 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import UserProfile
 from django.utils.translation import gettext_lazy as _
-from .models import ServiceRequest
+from .models import UserProfile, ServiceRequest
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -21,6 +20,7 @@ class CustomUserCreationForm(UserCreationForm):
             "email": _("Email"),
             "password1": _("Password"),
             "password2": _("Confirm Password"),
+            "user_type": _("User Type"),
         }
 
     def save(self, commit=True):

@@ -1,16 +1,17 @@
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="fa">
 <head>
     <meta charset="UTF-8">
-    <title>Service Categories</title>
+    <title>{% trans "Service Categories" %}</title>
 </head>
 <body>
-    <h1>Service Categories</h1>
+    <h1>{% trans "Service Categories" %}</h1>
     <ul>
         {% for category in categories %}
             <li>{{ category.title }}</li>
         {% empty %}
-            <li>No categories found.</li>
+            <li>{% trans "No categories found." %}</li>
         {% endfor %}
     </ul>
 </body>
