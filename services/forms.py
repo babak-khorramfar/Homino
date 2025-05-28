@@ -23,8 +23,10 @@ class CustomUserCreationForm(UserCreationForm):
         }
 
     def save(self, commit=True):
-        user = super().save(commit)
-        user_profile = UserProfile.objects.get(user=user)
-        user_profile.user_type = self.cleaned_data["user_type"]
-        user_profile.save()
+        user = super().save(commit=False)
+        if commit:
+            user.save()
+            user_profile = UserProfile.objects.get(user=user)
+            user_profile.user_type = self.cleaned_data["user_type"]
+            user_profile.save()
         return user

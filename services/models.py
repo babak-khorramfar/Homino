@@ -4,11 +4,37 @@ from django.utils.translation import gettext_lazy as _
 
 
 class ServiceCategory(models.Model):
-    name = models.CharField(max_length=100, verbose_name=_("Category Name"))
-    description = models.TextField(blank=True, verbose_name=_("Description"))
+    title = models.CharField(max_length=100, verbose_name=_("Title"))
+    slug = models.SlugField(unique=True, verbose_name=_("Slug"))
+    description = models.TextField(blank=True, null=True, verbose_name=_("Description"))
+
+    class Meta:
+        verbose_name = _("Service Category")
+        verbose_name_plural = _("Service Categories")
 
     def __str__(self):
-        return self.name
+        return self.title
+
+
+class UserProfile(models.Model):
+    class UserType(models.TextChoices):
+        CUSTOMER = "customer", _("Customer")
+        PROVIDER = "provider", _("Provider")
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    user_type = models.CharField(
+        max_length=10,
+        choices=UserType.choices,
+        verbose_name=_("User Type"),
+        blank=False,
+        null=False,
+    )
+    phone = models.CharField(max_length=20, verbose_name=_("Phone Number"), blank=True)
+    city = models.CharField(max_length=50, verbose_name=_("City"), blank=True)
+    address = models.TextField(verbose_name=_("Address"), blank=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.get_user_type_display()}"
 
 
 class ServiceRequest(models.Model):
@@ -27,7 +53,7 @@ class ServiceRequest(models.Model):
     )
     category = models.ForeignKey(
         ServiceCategory,
-        on_delete=models.SET_NULL,
+        on_delete=models.PROTECT,
         null=True,
         verbose_name=_("Service Category"),
     )
@@ -44,20 +70,3 @@ class ServiceRequest(models.Model):
 
     def __str__(self):
         return f"{self.category} - {self.city} - {self.customer.username}"
-
-
-class UserProfile(models.Model):
-    class UserType(models.TextChoices):
-        CUSTOMER = "customer", _("سفارش‌دهنده")
-        PROVIDER = "provider", _("متخصص")
-
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
-    user_type = models.CharField(
-        max_length=10, choices=UserType.choices, verbose_name=_("نوع کاربر")
-    )
-    phone = models.CharField(max_length=20, verbose_name=_("شماره تماس"), blank=True)
-    city = models.CharField(max_length=50, verbose_name=_("شهر"), blank=True)
-    address = models.TextField(verbose_name=_("آدرس"), blank=True)
-
-    def __str__(self):
-        return f"{self.user.username} - {self.get_user_type_display()}"

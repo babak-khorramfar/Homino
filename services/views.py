@@ -1,5 +1,10 @@
 from django.shortcuts import render, redirect
 from .forms import CustomUserCreationForm
+from django.http import HttpResponse
+
+
+def home(request):
+    return HttpResponse("Welcome to Homino! 😎")
 
 
 def register(request):

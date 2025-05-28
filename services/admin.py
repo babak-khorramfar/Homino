@@ -5,8 +5,8 @@ from .models import ServiceCategory, ServiceRequest
 
 @admin.register(ServiceCategory)
 class ServiceCategoryAdmin(admin.ModelAdmin):
-    list_display = ("name", "description")
-    search_fields = ("name",)
+    list_display = ("title", "description")
+    search_fields = ("title",)
 
 
 @admin.register(ServiceRequest)
