@@ -3,6 +3,7 @@ from .forms import CustomUserCreationForm
 from django.http import HttpResponse
 from .forms import ServiceRequestForm
 from django.contrib.auth.decorators import login_required
+from .models import ServiceCategory
 
 
 def home(request):
@@ -21,4 +22,5 @@ def register(request):
 
 
 def service_list(request):
-    return HttpResponse("Service list is working.")
+    categories = ServiceCategory.objects.all()
+    return render(request, "services/service_list.html", {"categories": categories})
