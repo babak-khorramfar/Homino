@@ -20,16 +20,5 @@ def register(request):
     return render(request, "registration/register.html", {"form": form})
 
 
-@login_required
-def create_service_request(request):
-    if request.method == "POST":
-        form = ServiceRequestForm(request.POST)
-        if form.is_valid():
-            service_request = form.save(commit=False)
-            service_request.customer = request.user
-            service_request.save()
-            return redirect("home")  # یا هر صفحه‌ای که بعد از ثبت می‌خوای نمایش بدی
-    else:
-        form = ServiceRequestForm()
-
-    return render(request, "services/create_request.html", {"form": form})
+def service_list(request):
+    return HttpResponse("Service list is working.")

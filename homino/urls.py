@@ -1,27 +1,10 @@
-"""
-URL configuration for homino project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-
 from django.contrib import admin
 from django.urls import path, include
-from services.views import register, home
+from services.views import home  # اگر صفحه اصلی هم از services میاد
 
 urlpatterns = [
-    path("", home, name="home"),
+    path("", home, name="home"),  # فقط اگر نیاز داری home هم باشه
     path("admin/", admin.site.urls),
-    path("register/", register, name="register"),
-    path("services/", include("services.urls")),
+    path("register/", include("services.urls")),  # اگه فرم ثبت‌نام اونجاست
+    path("services/", include("services.urls")),  # این لازمه برای حل مشکلت
 ]
