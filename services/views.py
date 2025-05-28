@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from .models import ServiceCategory
 from .models import ServiceRequest
 from .forms import ServiceRequestForm
-from .decorators import user_is_customer
+from services.decorators import role_required
 from django.contrib.auth.views import LoginView
 from django.urls import reverse
 from .models import UserProfile
@@ -37,19 +37,20 @@ class CustomLoginView(LoginView):
         return reverse("home")  # fallback
 
 
+@role_required("customer")
 def service_list(request):
     categories = ServiceCategory.objects.all()
     return render(request, "services/service_list.html", {"categories": categories})
 
 
-@login_required
+@role_required("provider")
 def request_list(request):
     user = request.user
     requests = ServiceRequest.objects.filter(customer=user)
     return render(request, "services/request_list.html", {"requests": requests})
 
 
-@login_required
+@role_required("provider")
 def request_create(request):
     if request.method == "POST":
         form = ServiceRequestForm(request.POST)
@@ -63,8 +64,7 @@ def request_create(request):
     return render(request, "services/request_form.html", {"form": form})
 
 
-@login_required
-@user_is_customer
+@role_required("customer")
 def create_service_request(request):
     if request.method == "POST":
         form = ServiceRequestForm(request.POST)
