@@ -20,19 +20,19 @@
         }
     </style>
 </head>
-<body class="bg-white flex items-center justify-center h-screen">
+<body class="bg-pink-500 flex items-center justify-center h-screen">
 
     <div class="fade-in text-center">
-        <img src="{% static 'images/logo_homino_icon.png' %}" alt="Homino Logo" class="w-24 h-24 mx-auto mb-4">
-        <h1 class="text-pink-600 text-3xl font-bold">Homino</h1>
-        <p class="text-gray-500 text-sm mt-2">Connecting You With The Right Services</p>
+        <img src="{% static 'images/splash.png' %}" alt="Homino Logo" class="w-56 h-24 mx-auto mb-4">
+        <!-- <h1 class="text-white text-3xl font-bold">Homino</h1> -->
+        <!-- <p class="text-gray-900 text-sm mt-2">Connecting You With The Right Services</p> -->
     </div>
 
-    <!-- Optional Redirect -->
+    <!-- Redirect after 3 seconds -->
     <script>
-    setTimeout(function(){
-        window.location.href = "{% url 'home' %}";
-    }, 3000); // 3 ثانیه
+        setTimeout(function(){
+            window.location.href = "{% url 'home' %}";
+        }, 3000);
     </script>
 
 </body>
