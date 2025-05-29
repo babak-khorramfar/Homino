@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block title %}{% trans "Home" %}{% endblock %}
+
+{% block content %}
+
+<!-- Greeting -->
+<div class="text-center mb-6">
+    <h2 class="text-xl font-bold text-pink-600">{% trans "Welcome to Homino" %} 👋</h2>
+    <p class="text-gray-600 text-sm mt-2">{% trans "Choose a service to get started" %}</p>
+</div>
+
+<!-- Service Categories Grid -->
+<div class="grid grid-cols-2 gap-4 mb-8">
+    <a href="#" class="bg-white rounded-lg shadow p-4 flex flex-col items-center hover:bg-pink-50">
+        <i class="ph ph-wrench text-3xl mb-2 text-pink-600"></i>
+        <span class="text-sm">{% trans "Plumbing" %}</span>
+    </a>
+    <a href="#" class="bg-white rounded-lg shadow p-4 flex flex-col items-center hover:bg-pink-50">
+        <i class="ph ph-broom text-3xl mb-2 text-pink-600"></i>
+        <span class="text-sm">{% trans "Cleaning" %}</span>
+    </a>
+    <a href="#" class="bg-white rounded-lg shadow p-4 flex flex-col items-center hover:bg-pink-50">
+        <i class="ph ph-lightning text-3xl mb-2 text-pink-600"></i>
+        <span class="text-sm">{% trans "Electricity" %}</span>
+    </a>
+    <a href="#" class="bg-white rounded-lg shadow p-4 flex flex-col items-center hover:bg-pink-50">
+        <i class="ph ph-paint-brush text-3xl mb-2 text-pink-600"></i>
+        <span class="text-sm">{% trans "Painting" %}</span>
+    </a>
+</div>
+
+<!-- Request Button -->
+<div class="text-center">
+    <a href="{% url 'create_service_request' %}" class="bg-pink-500 text-white px-6 py-3 rounded-full text-lg font-semibold shadow hover:bg-pink-600 transition">
+        📝 {% trans "New Service Request" %}
+    </a>
+</div>
+
+{% endblock %}

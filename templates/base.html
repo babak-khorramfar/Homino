@@ -25,21 +25,30 @@
 <body class="min-h-screen flex flex-col justify-between">
 
     <!-- Header -->
-    <header class="flex justify-between items-center p-4 bg-white shadow-sm">
-    <a href="{% url 'home' %}" class="flex items-center gap-2">
-        <img src="{% static 'images/logo_homino.png' %}" alt="Homino Logo" class="h-8 w-auto">
-        <span class="sr-only">{% trans "Homino" %}</span>
-    </a>
-    
-    <div class="w-10 h-10 rounded-full overflow-hidden">
-        <img src="{% static 'images/profile.jpg' %}" alt="Profile" class="w-full h-full object-cover">
-    </div>
-</header>
+    <header class="flex justify-between items-center p-4 bg-white shadow-sm relative z-10">
+        <a href="{% url 'home' %}" class="flex items-center gap-2">
+            <img src="{% static 'images/logo_homino.png' %}" alt="Homino Logo" class="h-8 w-auto">
+            <span class="sr-only">{% trans "Homino" %}</span>
+        </a>
+
+        <!-- Hamburger Menu -->
+        <div class="relative inline-block text-left">
+            <button id="menuButton" class="focus:outline-none text-gray-700 text-2xl">
+                &#9776;
+            </button>
+
+            <!-- Dropdown -->
+            <div id="menuDropdown" class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded shadow-lg z-20">
+                <a href="{% url 'logout' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-100">
+                    {% trans "Log out" %}
+                </a>
+            </div>
+        </div>
+    </header>
 
     <!-- Main -->
     <main class="flex-1 p-4">
         {% block content %}
-        <!-- Pages put content here -->
         {% endblock %}
     </main>
 
@@ -64,6 +73,22 @@
             </a>
         </div>
     </footer>
+
+    <!-- JS for Dropdown -->
+    <script>
+        const menuButton = document.getElementById("menuButton");
+        const menuDropdown = document.getElementById("menuDropdown");
+
+        menuButton.addEventListener("click", () => {
+            menuDropdown.classList.toggle("hidden");
+        });
+
+        document.addEventListener("click", function(event) {
+            if (!menuButton.contains(event.target) && !menuDropdown.contains(event.target)) {
+                menuDropdown.classList.add("hidden");
+            }
+        });
+    </script>
 
 </body>
 </html>

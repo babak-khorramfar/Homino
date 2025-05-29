@@ -1,11 +1,11 @@
-{% load static %}
+{% load static i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Homino</title>
+    <title>{% trans "Welcome to Homino" %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    
     <!-- TailwindCSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -14,26 +14,28 @@
             0% { opacity: 0; transform: scale(0.95); }
             100% { opacity: 1; transform: scale(1); }
         }
-
         .fade-in {
             animation: fadeIn 1s ease-out forwards;
         }
     </style>
 </head>
-<body class="bg-pink-500 flex items-center justify-center h-screen">
+<body class="bg-pink-500 flex flex-col items-center justify-center h-screen px-4">
 
-    <div class="fade-in text-center">
+    <div class="fade-in text-center mb-8">
         <img src="{% static 'images/splash.png' %}" alt="Homino Logo" class="w-56 h-24 mx-auto mb-4">
-        <!-- <h1 class="text-white text-3xl font-bold">Homino</h1> -->
-        <!-- <p class="text-gray-900 text-sm mt-2">Connecting You With The Right Services</p> -->
+        <!-- <h1 class="text-white text-3xl font-bold">Homino</h1>
+        <p class="text-gray-900 text-sm mt-2">{% trans "Connecting You With The Right Services" %}</p> -->
     </div>
 
-    <!-- Redirect after 3 seconds -->
-    <script>
-        setTimeout(function(){
-            window.location.href = "{% url 'home' %}";
-        }, 3000);
-    </script>
+    <!-- Buttons -->
+    <div class="flex gap-4">
+        <a href="{% url 'login' %}" class="bg-white text-pink-600 font-semibold px-6 py-2 rounded shadow">
+            {% trans "Login" %}
+        </a>
+        <a href="{% url 'register' %}" class="bg-white text-pink-600 font-semibold px-6 py-2 rounded shadow">
+            {% trans "Sign Up" %}
+        </a>
+    </div>
 
 </body>
 </html>

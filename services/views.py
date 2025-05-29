@@ -10,6 +10,8 @@ from services.decorators import role_required
 from django.contrib.auth.views import LoginView
 from django.urls import reverse
 from .models import UserProfile
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
 
 
 def splash_view(request):
@@ -17,10 +19,12 @@ def splash_view(request):
 
 
 def home(request):
-    return HttpResponse("Welcome to Homino! 😎")
+    return render(request, "services/customer/home.html")
 
 
 def register(request):
+    if request.user.is_authenticated:
+        return redirect("home")  # جلوگیری از دسترسی مجدد
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
@@ -80,3 +84,31 @@ def create_service_request(request):
     else:
         form = ServiceRequestForm()
     return render(request, "services/create_request.html", {"form": form})
+
+
+def login_view(request):
+    if request.user.is_authenticated:
+        return redirect("home")
+    if request.method == "POST":
+        phone = request.POST.get("username")
+        password = request.POST.get("password")
+        otp = request.POST.get("otp")
+
+        user = authenticate(request, username=phone, password=password)
+
+        if user is not None:
+            if otp == "123456" or not otp:
+                if otp:  # اگر otp وارد شده، یعنی فاز تأیید نهایی
+                    login(request, user)
+                    return redirect("home")
+                else:
+                    # فاز اول لاگین موفق، نمایش فرم OTP
+                    messages.info(
+                        request, _("Verification code sent (test mode: 123456)")
+                    )
+            else:
+                messages.error(request, _("Invalid verification code."))
+        else:
+            messages.error(request, _("Invalid phone number or password."))
+
+    return render(request, "registration/login.html")
