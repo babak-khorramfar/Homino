@@ -13,7 +13,8 @@ def logout_view(request):
 
 
 urlpatterns = [
-    path("", home, name="home"),
+    path("", include("services.urls")),
+    path("home/", home, name="home"),
     path("admin/", admin.site.urls),
     path("register/", register, name="register"),  # مسیر ثبت‌نام
     path("services/", include("services.urls")),

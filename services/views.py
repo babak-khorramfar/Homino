@@ -12,6 +12,10 @@ from django.urls import reverse
 from .models import UserProfile
 
 
+def splash_view(request):
+    return render(request, "splash.html")
+
+
 def home(request):
     return HttpResponse("Welcome to Homino! 😎")
 

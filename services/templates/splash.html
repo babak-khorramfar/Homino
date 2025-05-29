@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Homino</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-white flex items-center justify-center h-screen">
+
+    <div class="fade-in text-center">
+        <img src="{% static 'images/logo_homino_icon.png' %}" alt="Homino Logo" class="w-24 h-24 mx-auto mb-4">
+        <h1 class="text-pink-600 text-3xl font-bold">Homino</h1>
+        <p class="text-gray-500 text-sm mt-2">Connecting You With The Right Services</p>
+    </div>
+
+    <!-- Optional Redirect -->
+    <script>
+    setTimeout(function(){
+        window.location.href = "{% url 'home' %}";
+    }, 3000); // 3 ثانیه
+    </script>
+
+</body>
+</html>
