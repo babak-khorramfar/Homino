@@ -7,10 +7,11 @@
 <h2 class="text-xl font-bold text-center text-pink-600 mb-4">{{ _('Select a service category') }}</h2>
 
 <!-- لیست دسته‌های اصلی -->
-<div id="mainCategories" class="grid grid-cols-3 gap-3">
+<div id="mainCategories" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
     {% for category in categories %}
-    <button onclick="showSubcategories('{{ category.id }}')"
-        class="bg-white px-2 py-4 text-sm text-center shadow rounded hover:bg-pink-50">
+    <button onclick="showSubcategories('{{ category.id }}')" 
+            data-catname="{{ category.title|escapejs }}"
+            class="bg-white px-2 py-4 text-sm text-center shadow rounded hover:bg-pink-50">
         {{ category.title }}
     </button>
     {% endfor %}
@@ -18,24 +19,22 @@
 
 <!-- لیست زیرشاخه‌ها -->
 <div id="subCategoryContainer" class="hidden">
-    <button onclick="backToMain()" class="mb-4 bg-gray-200 text-gray-700 px-4 py-2 rounded text-sm">
+    <button onclick="backToMain()" 
+            class="mb-4 bg-gray-200 text-gray-700 px-4 py-2 rounded text-sm">
         ← {{ _('Back') }}
     </button>
 
-    <div id="subCategoryGrid" class="grid grid-cols-3 gap-3">
-        <!-- زیرشاخه‌ها به‌صورت داینامیک اضافه می‌شن -->
+    <div id="subCategoryGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <!-- زیرشاخه‌ها داینامیک اضافه می‌شن -->
     </div>
 </div>
 
 <script>
-    const backText = "{{ _('Back') }}";
-    const openCategoryText = "{{ _('Open category page for') }}";
-
     const allSubcategories = {
         {% for category in categories %}
         "{{ category.id }}": [
             {% for sub in category.children.all %}
-            { id: "{{ sub.id }}", title: "{{ sub.title }}" },
+            { id: "{{ sub.id }}", title: "{{ sub.title|escapejs }}" },
             {% endfor %}
         ],
         {% endfor %}
@@ -53,7 +52,7 @@
             const el = document.createElement("button");
             el.className = "bg-white px-2 py-4 text-sm text-center shadow rounded hover:bg-pink-50";
             el.innerText = sub.title;
-            el.onclick = () => alert(openCategoryText + " " + sub.title);
+            el.onclick = () => alert("{{ _('Open category page for') }} " + sub.title);
             grid.appendChild(el);
         });
     }

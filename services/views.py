@@ -12,6 +12,10 @@ from django.urls import reverse
 from .models import UserProfile
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from .models import Proposal, Review, ChatMessage, SupportTicket
+from .forms import ProposalForm, ReviewForm, ChatMessageForm, SupportTicketForm
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 
 
 def splash_view(request):
@@ -115,3 +119,71 @@ def login_view(request):
             messages.error(request, _("Invalid phone number or password."))
 
     return render(request, "registration/login.html")
+
+
+@role_required("provider")
+def create_proposal(request, request_id):
+    service_request = get_object_or_404(ServiceRequest, pk=request_id)
+    if request.method == "POST":
+        form = ProposalForm(request.POST)
+        if form.is_valid():
+            proposal = form.save(commit=False)
+            proposal.provider = request.user
+            proposal.service_request = service_request
+            proposal.save()
+            return redirect("request_list")
+    else:
+        form = ProposalForm()
+    return render(
+        request,
+        "services/proposal_form.html",
+        {"form": form, "request": service_request},
+    )
+
+
+@role_required("customer")
+def create_review(request, request_id):
+    service_request = get_object_or_404(ServiceRequest, pk=request_id)
+    if request.method == "POST":
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.customer = request.user
+            review.service_request = service_request
+            review.provider = (
+                service_request.proposals.filter(is_accepted=True).first().provider
+            )
+            review.save()
+            return redirect("request_list")
+    else:
+        form = ReviewForm()
+    return render(request, "services/review_form.html", {"form": form})
+
+
+@login_required
+def send_message(request, receiver_id):
+    if request.method == "POST":
+        form = ChatMessageForm(request.POST)
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.sender = request.user
+            message.receiver_id = receiver_id
+            message.save()
+            return redirect("home")  # یا به صفحه گفت‌و‌گو
+    else:
+        form = ChatMessageForm()
+    return render(request, "services/chat_form.html", {"form": form})
+
+
+@login_required
+def submit_ticket(request):
+    if request.method == "POST":
+        form = SupportTicketForm(request.POST)
+        if form.is_valid():
+            ticket = form.save(commit=False)
+            ticket.user = request.user
+            ticket.save()
+            return redirect("support_thank_you")  # یا صفحه تیکت‌ها
+    else:
+        form = SupportTicketForm()
+    return render(request, "support/ticket_form.html", {"form": form})

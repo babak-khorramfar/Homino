@@ -2,7 +2,14 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext_lazy as _
-from .models import UserProfile, ServiceRequest
+from .models import (
+    UserProfile,
+    ServiceRequest,
+    Proposal,
+    Review,
+    ChatMessage,
+    SupportTicket,
+)
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -42,4 +49,47 @@ class ServiceRequestForm(forms.ModelForm):
             "city": _("City"),
             "address": _("Address"),
             "description": _("Description"),
+        }
+
+
+class ProposalForm(forms.ModelForm):
+    class Meta:
+        model = Proposal
+        fields = ["price_estimate", "message"]
+        labels = {
+            "price_estimate": _("Estimated Price"),
+            "message": _("Message"),
+        }
+
+
+class ReviewForm(forms.ModelForm):
+    RATING_CHOICES = [(i, str(i)) for i in range(1, 6)]
+    rating = forms.ChoiceField(
+        choices=RATING_CHOICES, label=_("Rating"), widget=forms.RadioSelect
+    )
+
+    class Meta:
+        model = Review
+        fields = ["rating", "comment"]
+        labels = {
+            "comment": _("Comment"),
+        }
+
+
+class ChatMessageForm(forms.ModelForm):
+    class Meta:
+        model = ChatMessage
+        fields = ["message"]
+        labels = {
+            "message": _("Message"),
+        }
+
+
+class SupportTicketForm(forms.ModelForm):
+    class Meta:
+        model = SupportTicket
+        fields = ["subject", "message"]
+        labels = {
+            "subject": _("Subject"),
+            "message": _("Message"),
         }

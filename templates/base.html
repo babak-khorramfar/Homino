@@ -1,94 +1,65 @@
-{% load static i18n %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Homino{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
-    <!-- TailwindCSS -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Phosphor Icons CDN -->
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- فونت Vazirmatn -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- PWA -->
+    <link rel="manifest" href="{% url 'manifest' %}">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="apple-touch-icon" href="{% static 'icons/icon-192x192.png' %}">
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register("{% url 'serviceworker' %}")
+                .then(reg => console.log("Service Worker registered", reg))
+                .catch(err => console.warn("Service Worker registration failed", err));
+        }
+    </script>
 
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f9f9fb;
+            font-family: 'Vazirmatn', sans-serif;
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between">
+<body class="bg-white text-gray-800 pb-16">
 
-    <!-- Header -->
-    <header class="flex justify-between items-center p-4 bg-white shadow-sm relative z-10">
-        <a href="{% url 'home' %}" class="flex items-center gap-2">
-            <img src="{% static 'images/logo_homino.png' %}" alt="Homino Logo" class="h-8 w-auto">
-            <span class="sr-only">{% trans "Homino" %}</span>
-        </a>
+<header class="bg-white shadow p-4 flex items-center justify-between">
+    <img src="{% static 'images/logo_homino.png' %}" alt="Homino Logo" class="h-8">
+</header>
 
-        <!-- Hamburger Menu -->
-        <div class="relative inline-block text-left">
-            <button id="menuButton" class="focus:outline-none text-gray-700 text-2xl">
-                &#9776;
-            </button>
+<main class="p-4">
+    {% block content %}{% endblock %}
+</main>
 
-            <!-- Dropdown -->
-            <div id="menuDropdown" class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded shadow-lg z-20">
-                <a href="{% url 'logout' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-pink-100">
-                    {% trans "Log out" %}
-                </a>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main -->
-    <main class="flex-1 p-4">
-        {% block content %}
-        {% endblock %}
-    </main>
-
-    <!-- Bottom Navigation -->
-    <footer class="bg-white shadow-inner p-2 fixed bottom-0 left-0 right-0 z-50">
-        <div class="flex justify-around text-gray-500 text-xs">
-            <a href="#" class="flex flex-col items-center">
-                <i class="ph ph-house text-xl"></i>
-                <span>{% trans "Home" %}</span>
-            </a>
-            <a href="#" class="flex flex-col items-center">
-                <i class="ph ph-wrench text-xl"></i>
-                <span>{% trans "Services" %}</span>
-            </a>
-            <a href="#" class="flex flex-col items-center">
-                <i class="ph ph-chat-centered-text text-xl"></i>
-                <span>{% trans "Chat" %}</span>
-            </a>
-            <a href="#" class="flex flex-col items-center">
-                <i class="ph ph-user text-xl"></i>
-                <span>{% trans "Profile" %}</span>
-            </a>
-        </div>
-    </footer>
-
-    <!-- JS for Dropdown -->
-    <script>
-        const menuButton = document.getElementById("menuButton");
-        const menuDropdown = document.getElementById("menuDropdown");
-
-        menuButton.addEventListener("click", () => {
-            menuDropdown.classList.toggle("hidden");
-        });
-
-        document.addEventListener("click", function(event) {
-            if (!menuButton.contains(event.target) && !menuDropdown.contains(event.target)) {
-                menuDropdown.classList.add("hidden");
-            }
-        });
-    </script>
+<footer class="fixed bottom-0 w-full bg-white border-t shadow-md flex justify-around text-sm z-50">
+    <a href="{% url 'home' %}" class="flex flex-col items-center justify-center p-2 text-pink-600">
+        <i class="fas fa-home text-lg"></i>
+        <span>خانه</span>
+    </a>
+    <a href="{% url 'service_list' %}" class="flex flex-col items-center justify-center p-2 text-gray-500 hover:text-pink-600">
+        <i class="fas fa-layer-group text-lg"></i>
+        <span>خدمات</span>
+    </a>
+    <a href="{% url 'request_list' %}" class="flex flex-col items-center justify-center p-2 text-gray-500 hover:text-pink-600">
+        <i class="fas fa-list text-lg"></i>
+        <span>سفارشات</span>
+    </a>
+    <a href="{% url 'logout' %}" class="flex flex-col items-center justify-center p-2 text-gray-500 hover:text-pink-600">
+        <i class="fas fa-sign-out-alt text-lg"></i>
+        <span>خروج</span>
+    </a>
+</footer>
 
 </body>
 </html>

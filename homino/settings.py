@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "services",
     "mptt",
+    "pwa",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
@@ -121,7 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = "fa"
+LANGUAGE_CODE = "en"
 
 TIME_ZONE = "Asia/Tehran"
 
@@ -157,3 +159,29 @@ LOGIN_REDIRECT_URL = "/"
 STATIC_URL = "/static/"
 
 STATICFILES_DIRS = [BASE_DIR / "static"]
+
+PWA_APP_NAME = "Homino"
+PWA_APP_DESCRIPTION = "Smart home service request platform"
+PWA_APP_THEME_COLOR = "#ffffff"
+PWA_APP_BACKGROUND_COLOR = "#ffffff"
+PWA_APP_DISPLAY = "standalone"
+PWA_APP_SCOPE = "/"
+PWA_APP_ORIENTATION = "portrait"
+PWA_APP_START_URL = "/"
+PWA_APP_ICONS = [
+    {"src": "/static/icons/icon-192x192.png", "sizes": "192x192"},
+    {"src": "/static/icons/icon-512x512.png", "sizes": "512x512"},
+]
+PWA_APP_ICONS_APPLE = [{"src": "/static/icons/icon-192x192.png"}]
+PWA_APP_DIR = "ltr"
+PWA_APP_LANG = "en-US"
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
+    ],
+}
