@@ -1,41 +1,66 @@
 {% extends "base.html" %}
-{% load i18n static %}
+{% load i18n %}
 
-{% block title %}{% trans "Home" %}{% endblock %}
+{% block title %}{{ _('Home') }}{% endblock %}
 
 {% block content %}
+<h2 class="text-xl font-bold text-center text-pink-600 mb-4">{{ _('Select a service category') }}</h2>
 
-<!-- Greeting -->
-<div class="text-center mb-6">
-    <h2 class="text-xl font-bold text-pink-600">{% trans "Welcome to Homino" %} 👋</h2>
-    <p class="text-gray-600 text-sm mt-2">{% trans "Choose a service to get started" %}</p>
+<!-- لیست دسته‌های اصلی -->
+<div id="mainCategories" class="grid grid-cols-3 gap-3">
+    {% for category in categories %}
+    <button onclick="showSubcategories('{{ category.id }}')"
+        class="bg-white px-2 py-4 text-sm text-center shadow rounded hover:bg-pink-50">
+        {{ category.title }}
+    </button>
+    {% endfor %}
 </div>
 
-<!-- Service Categories Grid -->
-<div class="grid grid-cols-2 gap-4 mb-8">
-    <a href="#" class="bg-white rounded-lg shadow p-4 flex flex-col items-center hover:bg-pink-50">
-        <i class="ph ph-wrench text-3xl mb-2 text-pink-600"></i>
-        <span class="text-sm">{% trans "Plumbing" %}</span>
-    </a>
-    <a href="#" class="bg-white rounded-lg shadow p-4 flex flex-col items-center hover:bg-pink-50">
-        <i class="ph ph-broom text-3xl mb-2 text-pink-600"></i>
-        <span class="text-sm">{% trans "Cleaning" %}</span>
-    </a>
-    <a href="#" class="bg-white rounded-lg shadow p-4 flex flex-col items-center hover:bg-pink-50">
-        <i class="ph ph-lightning text-3xl mb-2 text-pink-600"></i>
-        <span class="text-sm">{% trans "Electricity" %}</span>
-    </a>
-    <a href="#" class="bg-white rounded-lg shadow p-4 flex flex-col items-center hover:bg-pink-50">
-        <i class="ph ph-paint-brush text-3xl mb-2 text-pink-600"></i>
-        <span class="text-sm">{% trans "Painting" %}</span>
-    </a>
+<!-- لیست زیرشاخه‌ها -->
+<div id="subCategoryContainer" class="hidden">
+    <button onclick="backToMain()" class="mb-4 bg-gray-200 text-gray-700 px-4 py-2 rounded text-sm">
+        ← {{ _('Back') }}
+    </button>
+
+    <div id="subCategoryGrid" class="grid grid-cols-3 gap-3">
+        <!-- زیرشاخه‌ها به‌صورت داینامیک اضافه می‌شن -->
+    </div>
 </div>
 
-<!-- Request Button -->
-<div class="text-center">
-    <a href="{% url 'create_service_request' %}" class="bg-pink-500 text-white px-6 py-3 rounded-full text-lg font-semibold shadow hover:bg-pink-600 transition">
-        📝 {% trans "New Service Request" %}
-    </a>
-</div>
+<script>
+    const backText = "{{ _('Back') }}";
+    const openCategoryText = "{{ _('Open category page for') }}";
 
+    const allSubcategories = {
+        {% for category in categories %}
+        "{{ category.id }}": [
+            {% for sub in category.children.all %}
+            { id: "{{ sub.id }}", title: "{{ sub.title }}" },
+            {% endfor %}
+        ],
+        {% endfor %}
+    };
+
+    function showSubcategories(catId) {
+        document.getElementById("mainCategories").classList.add("hidden");
+        document.getElementById("subCategoryContainer").classList.remove("hidden");
+
+        const grid = document.getElementById("subCategoryGrid");
+        grid.innerHTML = "";
+
+        const subcats = allSubcategories[catId] || [];
+        subcats.forEach(sub => {
+            const el = document.createElement("button");
+            el.className = "bg-white px-2 py-4 text-sm text-center shadow rounded hover:bg-pink-50";
+            el.innerText = sub.title;
+            el.onclick = () => alert(openCategoryText + " " + sub.title);
+            grid.appendChild(el);
+        });
+    }
+
+    function backToMain() {
+        document.getElementById("subCategoryContainer").classList.add("hidden");
+        document.getElementById("mainCategories").classList.remove("hidden");
+    }
+</script>
 {% endblock %}

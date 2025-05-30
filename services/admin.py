@@ -1,12 +1,12 @@
 from django.contrib import admin
 from .models import UserProfile
 from .models import ServiceCategory, ServiceRequest
+from mptt.admin import DraggableMPTTAdmin
 
 
 @admin.register(ServiceCategory)
-class ServiceCategoryAdmin(admin.ModelAdmin):
-    list_display = ("title", "description")
-    search_fields = ("title",)
+class ServiceCategoryAdmin(DraggableMPTTAdmin):
+    pass
 
 
 @admin.register(ServiceRequest)

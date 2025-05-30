@@ -1,18 +1,17 @@
+{% extends "base.html" %}
 {% load i18n %}
-<!DOCTYPE html>
-<html lang="fa">
-<head>
-    <meta charset="UTF-8">
-    <title>{% trans "Service Categories" %}</title>
-</head>
-<body>
-    <h1>{% trans "Service Categories" %}</h1>
-    <ul>
-        {% for category in categories %}
-            <li>{{ category.title }}</li>
-        {% empty %}
-            <li>{% trans "No categories found." %}</li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+
+{% block title %}{% trans "Services" %}{% endblock %}
+
+{% block content %}
+<h2 class="text-xl font-bold text-center text-pink-600 mb-4">{% trans "Select a service category" %}</h2>
+
+<div class="grid grid-cols-2 gap-4">
+    {% for category in categories %}
+    <a href="#" class="bg-white rounded-lg shadow p-4 flex flex-col items-center hover:bg-pink-50">
+        <i class="ph ph-wrench text-3xl mb-2 text-pink-600"></i> <!-- آیکون ثابت یا بعداً بر اساس slug -->
+        <span class="text-sm">{{ category.title }}</span>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}

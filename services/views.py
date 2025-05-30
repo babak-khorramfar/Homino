@@ -19,7 +19,10 @@ def splash_view(request):
 
 
 def home(request):
-    return render(request, "services/customer/home.html")
+    categories = ServiceCategory.objects.filter(parent__isnull=True).prefetch_related(
+        "children"
+    )
+    return render(request, "services/customer/home.html", {"categories": categories})
 
 
 def register(request):
