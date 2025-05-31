@@ -1,8 +1,8 @@
 from django import forms
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext_lazy as _
 from .models import (
+    CustomUser,
     UserProfile,
     ServiceRequest,
     Proposal,
@@ -13,30 +13,27 @@ from .models import (
 
 
 class CustomUserCreationForm(UserCreationForm):
-    USER_TYPE_CHOICES = [
-        ("customer", _("Customer")),
-        ("provider", _("Service Provider")),
-    ]
-    user_type = forms.ChoiceField(choices=USER_TYPE_CHOICES, label=_("User Type"))
+    full_name = forms.CharField(label=_("Full Name"), max_length=255)
+    phone = forms.CharField(label=_("Phone Number"), max_length=20)
+    user_type = forms.ChoiceField(
+        label=_("User Type"),
+        choices=UserProfile.UserType.choices,
+        widget=forms.RadioSelect,
+    )
 
     class Meta:
-        model = User
-        fields = ["username", "email", "password1", "password2", "user_type"]
-        labels = {
-            "username": _("Username"),
-            "email": _("Email"),
-            "password1": _("Password"),
-            "password2": _("Confirm Password"),
-            "user_type": _("User Type"),
-        }
+        model = CustomUser
+        fields = ["phone", "full_name", "password1", "password2", "user_type"]
 
     def save(self, commit=True):
         user = super().save(commit=False)
+        user.phone = self.cleaned_data["phone"]
+        user.full_name = self.cleaned_data["full_name"]
         if commit:
             user.save()
-            user_profile = UserProfile.objects.get(user=user)
-            user_profile.user_type = self.cleaned_data["user_type"]
-            user_profile.save()
+            UserProfile.objects.update_or_create(
+                user=user, defaults={"user_type": self.cleaned_data["user_type"]}
+            )
         return user
 
 
@@ -63,15 +60,11 @@ class ProposalForm(forms.ModelForm):
 
 
 class ReviewForm(forms.ModelForm):
-    RATING_CHOICES = [(i, str(i)) for i in range(1, 6)]
-    rating = forms.ChoiceField(
-        choices=RATING_CHOICES, label=_("Rating"), widget=forms.RadioSelect
-    )
-
     class Meta:
         model = Review
         fields = ["rating", "comment"]
         labels = {
+            "rating": _("Rating"),
             "comment": _("Comment"),
         }
 

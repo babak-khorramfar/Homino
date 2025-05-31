@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
-{% load static %}
+<html lang="en" dir="rtl">
+{% load static i18n %}
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Homino{% endblock %}</title>
@@ -8,13 +8,13 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- فونت Vazirmatn -->
+    <!-- Vazirmatn Font -->
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn&display=swap" rel="stylesheet">
 
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <!-- PWA -->
+    <!-- PWA Support -->
     <link rel="manifest" href="{% url 'manifest' %}">
     <meta name="theme-color" content="#ffffff">
     <link rel="apple-touch-icon" href="{% static 'icons/icon-192x192.png' %}">
@@ -45,19 +45,19 @@
 <footer class="fixed bottom-0 w-full bg-white border-t shadow-md flex justify-around text-sm z-50">
     <a href="{% url 'home' %}" class="flex flex-col items-center justify-center p-2 text-pink-600">
         <i class="fas fa-home text-lg"></i>
-        <span>خانه</span>
+        <span>{% trans "Home" %}</span>
     </a>
     <a href="{% url 'service_list' %}" class="flex flex-col items-center justify-center p-2 text-gray-500 hover:text-pink-600">
         <i class="fas fa-layer-group text-lg"></i>
-        <span>خدمات</span>
+        <span>{% trans "Services" %}</span>
     </a>
     <a href="{% url 'request_list' %}" class="flex flex-col items-center justify-center p-2 text-gray-500 hover:text-pink-600">
         <i class="fas fa-list text-lg"></i>
-        <span>سفارشات</span>
+        <span>{% trans "Requests" %}</span>
     </a>
     <a href="{% url 'logout' %}" class="flex flex-col items-center justify-center p-2 text-gray-500 hover:text-pink-600">
         <i class="fas fa-sign-out-alt text-lg"></i>
-        <span>خروج</span>
+        <span>{% trans "Logout" %}</span>
     </a>
 </footer>
 

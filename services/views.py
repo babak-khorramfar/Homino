@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import CustomUserCreationForm
+from .forms import CustomUser
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext_lazy as _
@@ -30,16 +30,31 @@ def home(request):
 
 
 def register(request):
-    if request.user.is_authenticated:
-        return redirect("home")  # جلوگیری از دسترسی مجدد
     if request.method == "POST":
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("login")  # آدرس صفحه لاگین (یا داشبورد)
-    else:
-        form = CustomUserCreationForm()
-    return render(request, "registration/register.html", {"form": form})
+        full_name = request.POST.get("full_name")
+        phone = request.POST.get("phone")
+        role = request.POST.get("role")
+        password1 = request.POST.get("password1")
+        password2 = request.POST.get("password2")
+
+        if password1 != password2:
+            return render(request, "register.html", {"error": "Passwords do not match"})
+
+        user = CustomUser.objects.create_user(
+            full_name=full_name,
+            phone=phone,
+            password=password1,
+        )
+
+        # به‌روزرسانی نقش در UserProfile
+        profile = user.profile
+        profile.user_type = role
+        profile.save()
+
+        login(request, user)  # ورود خودکار
+        return redirect("home")  # ریدایرکت به صفحه اصلی
+
+    return render(request, "registration/register.html")
 
 
 class CustomLoginView(LoginView):
