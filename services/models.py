@@ -64,7 +64,9 @@ class UserProfile(models.Model):
 class ServiceCategory(MPTTModel):
     title = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
+    icon = models.CharField(max_length=50, blank=True, null=True)  # 👈 اضافه شده
     description = models.TextField(blank=True, null=True)
+
     parent = TreeForeignKey(
         "self",
         on_delete=models.CASCADE,
@@ -76,10 +78,6 @@ class ServiceCategory(MPTTModel):
 
     class MPTTMeta:
         order_insertion_by = ["title"]
-
-    class Meta:
-        verbose_name = "Service Category"
-        verbose_name_plural = "Service Categories"
 
     def __str__(self):
         return self.title
