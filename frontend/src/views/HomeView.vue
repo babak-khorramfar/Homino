@@ -12,7 +12,13 @@
           :key="index"
           class="flex-shrink-0 w-20 text-center"
         >
-          <div :class="['w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-2 shadow-md', item.bg]">
+          <div
+            :class="[
+              'w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-2',
+              item.bg,
+              item.shadow
+            ]"
+          >
             <i :class="['text-2xl', item.icon, item.color]"></i>
           </div>
           <p class="text-xs text-gray-600 truncate">{{ item.label }}</p>
@@ -41,11 +47,41 @@ onMounted(() => {
 })
 
 const categories = [
-  { label: "Cleaning", icon: "ph-fill ph-broom", bg: "bg-green-400/20", color: "text-green-600" },
-  { label: "Painting", icon: "ph-fill ph-paint-brush", bg: "bg-rose-400/20", color: "text-rose-500" },
-  { label: "Vehicle", icon: "ph-fill ph-truck", bg: "bg-purple-400/20", color: "text-purple-600" },
-  { label: "Labour", icon: "ph-fill ph-user", bg: "bg-blue-300/20", color: "text-blue-500" },
-  { label: "Electrical", icon: "ph-fill ph-lightning", bg: "bg-yellow-300/20", color: "text-yellow-500" }
+  {
+    label: "Cleaning",
+    icon: "ph-fill ph-broom",
+    bg: "bg-green-400/40",
+    color: "text-green-600",
+    shadow: "shadow-[0_4px_12px_rgba(34,197,94,0.2)]"
+  },
+  {
+    label: "Painting",
+    icon: "ph-fill ph-paint-brush",
+    bg: "bg-rose-400/40",
+    color: "text-rose-500",
+    shadow: "shadow-[0_4px_12px_rgba(244,63,94,0.2)]"
+  },
+  {
+    label: "Vehicle",
+    icon: "ph-fill ph-truck",
+    bg: "bg-purple-400/40",
+    color: "text-purple-600",
+    shadow: "shadow-[0_4px_12px_rgba(192,132,252,0.2)]"
+  },
+  {
+    label: "Labour",
+    icon: "ph-fill ph-user",
+    bg: "bg-blue-300/40",
+    color: "text-blue-500",
+    shadow: "shadow-[0_4px_12px_rgba(59,130,246,0.2)]"
+  },
+  {
+    label: "Electrical",
+    icon: "ph-fill ph-lightning",
+    bg: "bg-yellow-300/40",
+    color: "text-yellow-500",
+    shadow: "shadow-[0_4px_12px_rgba(250,204,21,0.2)]"
+  }
 ]
 </script>
 

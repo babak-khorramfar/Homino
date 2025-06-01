@@ -5,15 +5,15 @@
       <!-- دایره متحرک -->
       <div
         ref="indicator"
-        class="absolute -top-3 rounded-full border shadow-md z-10 transition-all duration-300 ease-in-out flex items-center justify-center"
+        class="absolute -top-5 rounded-full border shadow-lg z-10 transition-all duration-300 ease-in-out flex items-center justify-center"
         :style="{
           left: indicatorLeft + 'px',
           width: active.name === 'home' ? '72px' : '56px',
           height: active.name === 'home' ? '72px' : '56px',
-          backgroundColor: '#fff'
+          backgroundColor: '#ec4899'
         }"
       >
-        <i :class="[currentIcon, active.name === 'home' ? 'text-3xl' : 'text-2xl', 'text-pink-600']"></i>
+        <i :class="[currentIcon, active.name === 'home' ? 'text-3xl' : 'text-2xl', 'text-white']"></i>
       </div>
 
       <!-- آیتم‌های فوتر -->
