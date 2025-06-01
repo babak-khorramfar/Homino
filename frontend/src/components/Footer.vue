@@ -1,14 +1,19 @@
 <template>
-  <footer class="fixed bottom-0 w-full bg-white border-t z-50">
+  <footer class="fixed bottom-0 w-full bg-white border-t z-40">
     <div class="relative flex justify-around items-center h-20 px-2">
 
       <!-- دایره متحرک -->
       <div
         ref="indicator"
-        class="absolute -top-3 w-14 h-14 bg-white rounded-full border shadow-md z-10 transition-all duration-300 ease-in-out flex items-center justify-center"
-        :style="{ left: indicatorLeft + 'px' }"
+        class="absolute -top-3 rounded-full border shadow-md z-10 transition-all duration-300 ease-in-out flex items-center justify-center"
+        :style="{
+          left: indicatorLeft + 'px',
+          width: active.name === 'home' ? '72px' : '56px',
+          height: active.name === 'home' ? '72px' : '56px',
+          backgroundColor: '#fff'
+        }"
       >
-        <i :class="['text-2xl text-pink-600', currentIcon]"></i>
+        <i :class="[currentIcon, active.name === 'home' ? 'text-3xl' : 'text-2xl', 'text-pink-600']"></i>
       </div>
 
       <!-- آیتم‌های فوتر -->
@@ -21,12 +26,10 @@
       >
         <!-- آیکون -->
         <i
-          :class="[
-            item.icon,
-            item.name === 'home' ? 'text-2xl' : 'text-lg',
+          :class="[item.icon,
+            item.name === 'home' ? 'text-3xl' : 'text-lg',
             active.name === item.name ? 'invisible' : 'text-gray-400',
-            'transition-all duration-200'
-          ]"
+            'transition-all duration-200']"
         ></i>
 
         <!-- لیبل (مگر Home) -->
@@ -59,7 +62,7 @@ export default {
       { name: 'orders', label: 'Orders', path: '/orders', icon: 'fas fa-list' },
       { name: 'home', label: 'Home', path: '/', icon: 'fas fa-home' },
       { name: 'notifications', label: 'Notifications', path: '/notifications', icon: 'fas fa-bell' },
-      { name: 'settings', label: 'Settings', path: '/settings', icon: 'fas fa-cog' },
+      { name: 'settings', label: 'Settings', path: '/settings', icon: 'fas fa-cog' }
     ]
 
     const active = ref({ ...items[2] }) // پیش‌فرض: Home
@@ -73,7 +76,8 @@ export default {
       if (el && indicator.value) {
         const elRect = el.getBoundingClientRect()
         const parentRect = el.parentElement.getBoundingClientRect()
-        indicatorLeft.value = elRect.left - parentRect.left + elRect.width / 2 - 28
+        const offset = active.value.name === 'home' ? 36 : 28
+        indicatorLeft.value = elRect.left - parentRect.left + elRect.width / 2 - offset
       }
     }
 

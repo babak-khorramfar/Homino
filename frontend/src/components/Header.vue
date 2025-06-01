@@ -14,7 +14,7 @@
     <!-- OVERLAY -->
     <div
       v-if="sidebarOpen"
-      class="fixed inset-0 bg-black bg-opacity-30 z-40"
+      class="fixed inset-0 bg-black bg-opacity-30 z-50"
       @click="sidebarOpen = false"
     ></div>
 
