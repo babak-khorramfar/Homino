@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- HEADER -->
-    <header class="bg-white p-4 shadow flex justify-between items-center fixed top-0 left-0 w-full z-50">
+    <header class="bg-white p-4  flex justify-between items-center fixed top-0 left-0 w-full z-50">
       <!-- Logo سمت راست -->
       <img src="/images/logo_homino.png" alt="Homino Logo" class="h-8" />
 
