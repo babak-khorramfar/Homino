@@ -7,8 +7,8 @@
 
       <!-- منوی همبرگری سمت چپ -->
       <button @click="sidebarOpen = !sidebarOpen" class="text-gray-700 text-2xl">
-        <i class="fas fa-bars"></i>
-      </button>
+        <i class="ph ph-list"></i>
+        </button>
     </header>
 
     <!-- OVERLAY -->
@@ -38,7 +38,7 @@
       </div>
       <div class="absolute bottom-0 w-full border-t p-4">
         <button class="text-red-600 font-semibold w-full text-left">
-          <i class="fas fa-sign-out-alt mr-2"></i> Logout
+          <i class="ph ph-sign-out mr-2"></i> Logout
         </button>
       </div>
     </aside>

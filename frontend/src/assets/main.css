@@ -1,4 +1,5 @@
 @import './base.css';
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn&display=swap');
 
 #app {
   max-width: 1280px;
@@ -32,4 +33,9 @@ a,
     grid-template-columns: 1fr 1fr;
     padding: 0 2rem;
   }
+}
+
+
+html, body {
+  font-family: 'Vazirmatn', sans-serif;
 }

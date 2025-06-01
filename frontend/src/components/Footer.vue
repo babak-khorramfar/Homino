@@ -58,12 +58,12 @@ export default {
     const router = useRouter()
 
     const items = [
-      { name: 'services', label: 'Services', path: '/services', icon: 'fas fa-layer-group' },
-      { name: 'orders', label: 'Orders', path: '/orders', icon: 'fas fa-list' },
-      { name: 'home', label: 'Home', path: '/', icon: 'fas fa-home' },
-      { name: 'notifications', label: 'Notifications', path: '/notifications', icon: 'fas fa-bell' },
-      { name: 'settings', label: 'Settings', path: '/settings', icon: 'fas fa-cog' }
-    ]
+        { name: 'services', label: 'Services', path: '/services', icon: 'ph ph-stack' },
+        { name: 'orders', label: 'Orders', path: '/orders', icon: 'ph ph-list-bullets' },
+        { name: 'home', label: 'Home', path: '/', icon: 'ph ph-house' },
+        { name: 'notifications', label: 'Notifications', path: '/notifications', icon: 'ph ph-bell' },
+        { name: 'settings', label: 'Settings', path: '/settings', icon: 'ph ph-gear-six' }
+        ]
 
     const active = ref({ ...items[2] }) // پیش‌فرض: Home
     const currentIcon = ref(active.value.icon)
