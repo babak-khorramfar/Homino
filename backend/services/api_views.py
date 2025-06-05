@@ -1,7 +1,13 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from services.models import ServiceCategory, Service
-from services.serializers import ServiceCategorySerializer, ServiceSerializer
+from users.permissions import IsCustomer
+from rest_framework.permissions import IsAuthenticated
+from services.serializers import (
+    ServiceCategorySerializer,
+    ServiceSerializer,
+    ServiceRequestCreateSerializer,
+)
 from rest_framework import generics
 
 
@@ -21,3 +27,16 @@ class ServiceListView(generics.ListAPIView):
         if category_id:
             queryset = queryset.filter(category_id=category_id)
         return queryset
+
+
+class ServiceRequestCreateView(APIView):
+    permission_classes = [IsAuthenticated, IsCustomer]
+
+    def post(self, request):
+        serializer = ServiceRequestCreateSerializer(
+            data=request.data, context={"request": request}
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "درخواست با موفقیت ثبت شد."}, status=201)
+        return Response(serializer.errors, status=400)
