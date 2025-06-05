@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from users.models import CustomUser, CustomerProfile, ProviderProfile
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import authenticate
 
 
 class SignupSerializer(serializers.ModelSerializer):
@@ -24,3 +26,23 @@ class SignupSerializer(serializers.ModelSerializer):
             ProviderProfile.objects.create(user=user)
 
         return user
+
+
+class LoginSerializer(serializers.Serializer):
+    phone = serializers.CharField()
+    password = serializers.CharField(write_only=True)
+
+    def validate(self, data):
+        user = authenticate(phone=data["phone"], password=data["password"])
+        if not user:
+            raise serializers.ValidationError("شماره یا رمز عبور نادرست است.")
+        if not user.is_active:
+            raise serializers.ValidationError("حساب شما غیرفعال است.")
+
+        refresh = RefreshToken.for_user(user)
+        return {
+            "access": str(refresh.access_token),
+            "refresh": str(refresh),
+            "role": user.role,
+            "full_name": user.full_name,
+        }
