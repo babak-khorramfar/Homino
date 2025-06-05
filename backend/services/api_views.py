@@ -9,6 +9,7 @@ from services.serializers import (
     ServiceRequestCreateSerializer,
     ServiceRequestListSerializer,
     ProposalCreateSerializer,
+    ProposalListSerializer,
 )
 from rest_framework import generics
 
@@ -64,3 +65,17 @@ class ProposalCreateView(APIView):
             serializer.save()
             return Response({"message": "پیشنهاد با موفقیت ارسال شد."}, status=201)
         return Response(serializer.errors, status=400)
+
+
+class RequestProposalsView(APIView):
+    permission_classes = [IsAuthenticated, IsCustomer]
+
+    def get(self, request, request_id):
+        try:
+            service_request = request.user.service_requests.get(id=request_id)
+        except:
+            return Response({"error": "دسترسی غیرمجاز یا سفارش یافت نشد."}, status=404)
+
+        proposals = service_request.proposals.all().order_by("-created_at")
+        serializer = ProposalListSerializer(proposals, many=True)
+        return Response(serializer.data)

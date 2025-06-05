@@ -80,3 +80,11 @@ class ProposalCreateSerializer(serializers.ModelSerializer):
         return Proposal.objects.create(
             request=service_request, provider=provider, **validated_data
         )
+
+
+class ProposalListSerializer(serializers.ModelSerializer):
+    provider = serializers.CharField(source="provider.full_name")
+
+    class Meta:
+        model = Proposal
+        fields = ["id", "provider", "price", "message", "created_at"]
