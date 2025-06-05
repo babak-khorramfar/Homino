@@ -1,1 +1,3 @@
-from .models.category import ServiceCategory, Service
+from django.db import models
+
+# Create your models here.
