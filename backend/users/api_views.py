@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from .models.user import CustomUser
 from users.serializers import (
     SignupSerializer,
     LoginSerializer,
@@ -10,6 +11,7 @@ from users.serializers import (
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
 from users.permissions import IsCustomer, IsProvider
+from common.models import ActivityLog
 
 
 class SignupView(APIView):
@@ -28,8 +30,18 @@ class LoginView(APIView):
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
+            user = CustomUser.objects.get(phone=request.data["phone"])
+            ActivityLog.objects.create(user=user, action="login")
             return Response(serializer.validated_data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        ActivityLog.objects.create(user=request.user, action="logout")
+        return Response({"message": "خروج با موفقیت ثبت شد."}, status=200)
 
 
 class MeView(APIView):
