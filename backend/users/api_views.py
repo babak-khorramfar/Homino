@@ -9,6 +9,7 @@ from users.serializers import (
 )
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
+from users.permissions import IsCustomer, IsProvider
 
 
 class SignupView(APIView):
@@ -60,7 +61,7 @@ class MeView(APIView):
 
 
 class UpdateCustomerProfileView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsCustomer]
 
     def put(self, request):
         user = request.user
@@ -78,7 +79,7 @@ class UpdateCustomerProfileView(APIView):
 
 
 class UpdateProviderProfileView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsProvider]
 
     def put(self, request):
         user = request.user
