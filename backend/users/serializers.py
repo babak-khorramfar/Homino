@@ -71,3 +71,18 @@ class SkillSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service
         fields = ["id", "title"]
+
+
+class SkillUpdateSerializer(serializers.Serializer):
+    skills = serializers.ListField(child=serializers.IntegerField(), allow_empty=False)
+
+    def validate_skills(self, skill_ids):
+        from services.models import Service
+
+        valid_ids = set(
+            Service.objects.filter(id__in=skill_ids).values_list("id", flat=True)
+        )
+        invalid_ids = set(skill_ids) - valid_ids
+        if invalid_ids:
+            raise serializers.ValidationError(f"شناسه‌های نامعتبر: {list(invalid_ids)}")
+        return skill_ids
