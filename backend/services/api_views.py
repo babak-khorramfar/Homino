@@ -1,7 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from services.models import ServiceCategory
-from services.serializers import ServiceCategorySerializer
+from services.models import ServiceCategory, Service
+from services.serializers import ServiceCategorySerializer, ServiceSerializer
+from rest_framework import generics
 
 
 class CategoryListView(APIView):
@@ -9,3 +10,14 @@ class CategoryListView(APIView):
         parents = ServiceCategory.objects.filter(parent__isnull=True)
         serializer = ServiceCategorySerializer(parents, many=True)
         return Response(serializer.data)
+
+
+class ServiceListView(generics.ListAPIView):
+    serializer_class = ServiceSerializer
+
+    def get_queryset(self):
+        queryset = Service.objects.filter(is_active=True)
+        category_id = self.request.query_params.get("category")
+        if category_id:
+            queryset = queryset.filter(category_id=category_id)
+        return queryset
