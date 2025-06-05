@@ -45,3 +45,11 @@ class ServiceRequestCreateSerializer(serializers.ModelSerializer):
         return ServiceRequest.objects.create(
             customer=customer, service=service, **validated_data
         )
+
+
+class ServiceRequestListSerializer(serializers.ModelSerializer):
+    service = serializers.StringRelatedField()
+
+    class Meta:
+        model = ServiceRequest
+        fields = ["id", "service", "status", "description", "created_at"]

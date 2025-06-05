@@ -7,6 +7,7 @@ from services.serializers import (
     ServiceCategorySerializer,
     ServiceSerializer,
     ServiceRequestCreateSerializer,
+    ServiceRequestListSerializer,
 )
 from rest_framework import generics
 
@@ -40,3 +41,12 @@ class ServiceRequestCreateView(APIView):
             serializer.save()
             return Response({"message": "درخواست با موفقیت ثبت شد."}, status=201)
         return Response(serializer.errors, status=400)
+
+
+class MyServiceRequestsView(APIView):
+    permission_classes = [IsAuthenticated, IsCustomer]
+
+    def get(self, request):
+        requests = request.user.service_requests.all().order_by("-created_at")
+        serializer = ServiceRequestListSerializer(requests, many=True)
+        return Response(serializer.data)
