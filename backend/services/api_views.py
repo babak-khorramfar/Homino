@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from services.models import ServiceCategory, Service
+from services.models import ServiceCategory, Service, Proposal, ServiceRequest
 from users.permissions import IsCustomer, IsProvider
 from rest_framework.permissions import IsAuthenticated
 from services.serializers import (
@@ -79,3 +79,35 @@ class RequestProposalsView(APIView):
         proposals = service_request.proposals.all().order_by("-created_at")
         serializer = ProposalListSerializer(proposals, many=True)
         return Response(serializer.data)
+
+
+class AcceptProposalView(APIView):
+    permission_classes = [IsAuthenticated, IsCustomer]
+
+    def post(self, request):
+        proposal_id = request.data.get("proposal_id")
+        try:
+            proposal = Proposal.objects.get(id=proposal_id)
+        except Proposal.DoesNotExist:
+            return Response({"error": "پیشنهاد یافت نشد."}, status=404)
+
+        service_request = proposal.request
+        if service_request.customer != request.user:
+            return Response({"error": "شما مالک این سفارش نیستید."}, status=403)
+        if service_request.status != "pending":
+            return Response({"error": "امکان تأیید پیشنهاد وجود ندارد."}, status=400)
+
+        # تغییر وضعیت سفارش
+        service_request.status = "accepted"
+        service_request.save()
+
+        # وضعیت پیشنهاد انتخاب‌شده
+        proposal.status = "accepted"
+        proposal.save()
+
+        # رد کردن سایر پیشنهادها
+        Proposal.objects.filter(request=service_request).exclude(id=proposal_id).update(
+            status="rejected"
+        )
+
+        return Response({"message": "پیشنهاد با موفقیت تأیید شد."}, status=200)

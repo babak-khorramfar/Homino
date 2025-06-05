@@ -6,6 +6,7 @@ from services.api_views import (
     MyServiceRequestsView,
     ProposalCreateView,
     RequestProposalsView,
+    AcceptProposalView,
 )
 
 urlpatterns = [
@@ -14,6 +15,7 @@ urlpatterns = [
     path("request/create/", ServiceRequestCreateView.as_view(), name="create-request"),
     path("request/my/", MyServiceRequestsView.as_view(), name="my-requests"),
     path("proposal/create/", ProposalCreateView.as_view(), name="create-proposal"),
+    path("proposal/accept/", AcceptProposalView.as_view(), name="accept-proposal"),
     path(
         "request/<int:request_id>/proposals/",
         RequestProposalsView.as_view(),
