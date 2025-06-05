@@ -1,0 +1,582 @@
+[
+    {
+        "model": "services.servicecategory",
+        "pk": 1,
+        "fields": {
+            "title": "خدمات فنی و ساختمانی",
+            "slug": "main-1",
+            "description": "",
+            "parent": null
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 2,
+        "fields": {
+            "title": "لوله‌کشی",
+            "slug": "sub-2",
+            "description": "",
+            "parent": 1
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 3,
+        "fields": {
+            "title": "برق‌کاری",
+            "slug": "sub-3",
+            "description": "",
+            "parent": 1
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 4,
+        "fields": {
+            "title": "تعمیر کولر گازی و آبی",
+            "slug": "sub-4",
+            "description": "",
+            "parent": 1
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 5,
+        "fields": {
+            "title": "تعمیر پکیج و آبگرمکن",
+            "slug": "sub-5",
+            "description": "",
+            "parent": 1
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 6,
+        "fields": {
+            "title": "نقاشی ساختمان",
+            "slug": "sub-6",
+            "description": "",
+            "parent": 1
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 7,
+        "fields": {
+            "title": "کاشی‌کاری و سرامیک",
+            "slug": "sub-7",
+            "description": "",
+            "parent": 1
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 8,
+        "fields": {
+            "title": "نصب کابینت و MDF",
+            "slug": "sub-8",
+            "description": "",
+            "parent": 1
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 9,
+        "fields": {
+            "title": "در و پنجره‌سازی",
+            "slug": "sub-9",
+            "description": "",
+            "parent": 1
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 10,
+        "fields": {
+            "title": "ایزوگام و عایق‌کاری",
+            "slug": "sub-10",
+            "description": "",
+            "parent": 1
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 11,
+        "fields": {
+            "title": "بنایی و گچ‌کاری",
+            "slug": "sub-11",
+            "description": "",
+            "parent": 1
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 12,
+        "fields": {
+            "title": "نصب پرده و کرکره",
+            "slug": "sub-12",
+            "description": "",
+            "parent": 1
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 13,
+        "fields": {
+            "title": "جوشکاری",
+            "slug": "sub-13",
+            "description": "",
+            "parent": 1
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 14,
+        "fields": {
+            "title": "خدمات نظافت و بهداشت",
+            "slug": "main-14",
+            "description": "",
+            "parent": null
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 15,
+        "fields": {
+            "title": "نظافت منزل",
+            "slug": "sub-15",
+            "description": "",
+            "parent": 14
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 16,
+        "fields": {
+            "title": "نظافت راه‌پله و مشاعات",
+            "slug": "sub-16",
+            "description": "",
+            "parent": 14
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 17,
+        "fields": {
+            "title": "شست‌وشوی فرش و مبل در محل",
+            "slug": "sub-17",
+            "description": "",
+            "parent": 14
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 18,
+        "fields": {
+            "title": "ضدعفونی و سم‌پاشی",
+            "slug": "sub-18",
+            "description": "",
+            "parent": 14
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 19,
+        "fields": {
+            "title": "نظافت بعد از بازسازی",
+            "slug": "sub-19",
+            "description": "",
+            "parent": 14
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 20,
+        "fields": {
+            "title": "تعمیرات خانگی",
+            "slug": "main-20",
+            "description": "",
+            "parent": null
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 21,
+        "fields": {
+            "title": "تعمیر لوازم خانگی",
+            "slug": "sub-21",
+            "description": "",
+            "parent": 20
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 22,
+        "fields": {
+            "title": "تعمیر تلویزیون",
+            "slug": "sub-22",
+            "description": "",
+            "parent": 20
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 23,
+        "fields": {
+            "title": "تعمیر لپ‌تاپ",
+            "slug": "sub-23",
+            "description": "",
+            "parent": 20
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 24,
+        "fields": {
+            "title": "تعمیر مبلمان",
+            "slug": "sub-24",
+            "description": "",
+            "parent": 20
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 25,
+        "fields": {
+            "title": "تعمیر درب اتوماتیک",
+            "slug": "sub-25",
+            "description": "",
+            "parent": 20
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 26,
+        "fields": {
+            "title": "خدمات خانه‌داری و رفاه",
+            "slug": "main-26",
+            "description": "",
+            "parent": null
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 27,
+        "fields": {
+            "title": "اسباب‌کشی و بسته‌بندی",
+            "slug": "sub-27",
+            "description": "",
+            "parent": 26
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 28,
+        "fields": {
+            "title": "چیدمان و طراحی داخلی",
+            "slug": "sub-28",
+            "description": "",
+            "parent": 26
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 29,
+        "fields": {
+            "title": "نصب لوستر و لوازم سنگین",
+            "slug": "sub-29",
+            "description": "",
+            "parent": 26
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 30,
+        "fields": {
+            "title": "نصب دیوارکوب و تابلو",
+            "slug": "sub-30",
+            "description": "",
+            "parent": 26
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 31,
+        "fields": {
+            "title": "خدمات زیبایی و سلامت در محل",
+            "slug": "main-31",
+            "description": "",
+            "parent": null
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 32,
+        "fields": {
+            "title": "آرایشگر زنانه در محل",
+            "slug": "sub-32",
+            "description": "",
+            "parent": 31
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 33,
+        "fields": {
+            "title": "اصلاح مردانه",
+            "slug": "sub-33",
+            "description": "",
+            "parent": 31
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 34,
+        "fields": {
+            "title": "خدمات ناخن و مژه",
+            "slug": "sub-34",
+            "description": "",
+            "parent": 31
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 35,
+        "fields": {
+            "title": "ماساژ درمانی",
+            "slug": "sub-35",
+            "description": "",
+            "parent": 31
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 36,
+        "fields": {
+            "title": "خدمات پوست و صورت",
+            "slug": "sub-36",
+            "description": "",
+            "parent": 31
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 37,
+        "fields": {
+            "title": "آموزش خصوصی",
+            "slug": "main-37",
+            "description": "",
+            "parent": null
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 38,
+        "fields": {
+            "title": "معلم خصوصی",
+            "slug": "sub-38",
+            "description": "",
+            "parent": 37
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 39,
+        "fields": {
+            "title": "کلاس موسیقی",
+            "slug": "sub-39",
+            "description": "",
+            "parent": 37
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 40,
+        "fields": {
+            "title": "آموزش زبان",
+            "slug": "sub-40",
+            "description": "",
+            "parent": 37
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 41,
+        "fields": {
+            "title": "مربی ورزش",
+            "slug": "sub-41",
+            "description": "",
+            "parent": 37
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 42,
+        "fields": {
+            "title": "آموزش کامپیوتر",
+            "slug": "sub-42",
+            "description": "",
+            "parent": 37
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 43,
+        "fields": {
+            "title": "خدمات حیوانات خانگی",
+            "slug": "main-43",
+            "description": "",
+            "parent": null
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 44,
+        "fields": {
+            "title": "دامپزشک در محل",
+            "slug": "sub-44",
+            "description": "",
+            "parent": 43
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 45,
+        "fields": {
+            "title": "آرایش و شست‌وشوی حیوانات",
+            "slug": "sub-45",
+            "description": "",
+            "parent": 43
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 46,
+        "fields": {
+            "title": "آموزش سگ",
+            "slug": "sub-46",
+            "description": "",
+            "parent": 43
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 47,
+        "fields": {
+            "title": "خدمات خودرو",
+            "slug": "main-47",
+            "description": "",
+            "parent": null
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 48,
+        "fields": {
+            "title": "تعویض روغن در محل",
+            "slug": "sub-48",
+            "description": "",
+            "parent": 47
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 49,
+        "fields": {
+            "title": "پنچرگیری سیار",
+            "slug": "sub-49",
+            "description": "",
+            "parent": 47
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 50,
+        "fields": {
+            "title": "کارواش در محل",
+            "slug": "sub-50",
+            "description": "",
+            "parent": 47
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 51,
+        "fields": {
+            "title": "مکانیک سیار",
+            "slug": "sub-51",
+            "description": "",
+            "parent": 47
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 52,
+        "fields": {
+            "title": "نصب دزدگیر",
+            "slug": "sub-52",
+            "description": "",
+            "parent": 47
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 53,
+        "fields": {
+            "title": "سایر خدمات",
+            "slug": "main-53",
+            "description": "",
+            "parent": null
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 54,
+        "fields": {
+            "title": "پشتیبانی کامپیوتر",
+            "slug": "sub-54",
+            "description": "",
+            "parent": 53
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 55,
+        "fields": {
+            "title": "نصب دوربین مداربسته",
+            "slug": "sub-55",
+            "description": "",
+            "parent": 53
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 56,
+        "fields": {
+            "title": "خدمات مالی و حسابداری",
+            "slug": "sub-56",
+            "description": "",
+            "parent": 53
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 57,
+        "fields": {
+            "title": "مترجم و تایپ",
+            "slug": "sub-57",
+            "description": "",
+            "parent": 53
+        }
+    },
+    {
+        "model": "services.servicecategory",
+        "pk": 58,
+        "fields": {
+            "title": "مشاوره حقوقی",
+            "slug": "sub-58",
+            "description": "",
+            "parent": 53
+        }
+    }
+]
