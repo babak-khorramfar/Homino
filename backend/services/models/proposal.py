@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
-from models import ServiceRequest
+from services.models import ServiceRequest
 
 
 class Proposal(models.Model):

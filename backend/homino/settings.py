@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "services",
     "users",
+    "common",
     "mptt",
     "pwa",
     "rest_framework",
