@@ -2,6 +2,7 @@ from rest_framework import serializers
 from users.models import CustomUser, CustomerProfile, ProviderProfile
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
+from users.models import CustomerProfile
 
 
 class SignupSerializer(serializers.ModelSerializer):
@@ -46,3 +47,9 @@ class LoginSerializer(serializers.Serializer):
             "role": user.role,
             "full_name": user.full_name,
         }
+
+
+class CustomerProfileUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomerProfile
+        fields = ["address", "city", "profile_image"]

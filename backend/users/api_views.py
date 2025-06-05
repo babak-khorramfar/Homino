@@ -1,8 +1,13 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from users.serializers import SignupSerializer, LoginSerializer
+from users.serializers import (
+    SignupSerializer,
+    LoginSerializer,
+    CustomerProfileUpdateSerializer,
+)
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import PermissionDenied
 
 
 class SignupView(APIView):
@@ -51,3 +56,21 @@ class MeView(APIView):
             }
 
         return Response(data)
+
+
+class UpdateCustomerProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        user = request.user
+        if user.role != "customer" or not hasattr(user, "customer_profile"):
+            raise PermissionDenied("شما مجاز به بروزرسانی این پروفایل نیستید.")
+
+        profile = user.customer_profile
+        serializer = CustomerProfileUpdateSerializer(
+            profile, data=request.data, partial=True
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "پروفایل با موفقیت بروزرسانی شد."})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
