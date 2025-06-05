@@ -6,5 +6,5 @@ from django.shortcuts import redirect
 
 urlpatterns = [
     path("api/users/", include("users.urls")),
-    path("api/services/", include("services.urls")),
+    path("api/services/", include(("services.urls", "services"), namespace="services")),
 ]
