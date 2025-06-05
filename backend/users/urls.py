@@ -6,6 +6,7 @@ from users.api_views import (
     UpdateCustomerProfileView,
     UpdateProviderProfileView,
     LogoutView,
+    ProviderSkillListView,
 )
 from rest_framework_simplejwt.views import TokenRefreshView
 
@@ -15,6 +16,7 @@ urlpatterns = [
     path("logout/", LogoutView.as_view(), name="logout"),
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("me/", MeView.as_view(), name="me"),
+    path("provider/skills/", ProviderSkillListView.as_view(), name="provider-skills"),
     path(
         "customer/profile/update/",
         UpdateCustomerProfileView.as_view(),

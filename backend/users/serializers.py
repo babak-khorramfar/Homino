@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
+from services.models import Service
 from users.models import (
     CustomUser,
     CustomerProfile,
@@ -64,3 +65,9 @@ class ProviderProfileUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProviderProfile
         fields = ["bio", "profile_image", "is_available"]
+
+
+class SkillSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Service
+        fields = ["id", "title"]

@@ -7,6 +7,7 @@ from users.serializers import (
     LoginSerializer,
     CustomerProfileUpdateSerializer,
     ProviderProfileUpdateSerializer,
+    SkillSerializer,
 )
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
@@ -106,3 +107,13 @@ class UpdateProviderProfileView(APIView):
             serializer.save()
             return Response({"message": "پروفایل با موفقیت بروزرسانی شد."})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ProviderSkillListView(APIView):
+    permission_classes = [IsAuthenticated, IsProvider]
+
+    def get(self, request):
+        user = request.user
+        skills = user.provider_profile.skills.all()
+        serializer = SkillSerializer(skills, many=True)
+        return Response({"skills": serializer.data})
