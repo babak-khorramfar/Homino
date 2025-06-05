@@ -1,5 +1,11 @@
 from django.urls import path
-from users.api_views import SignupView, LoginView, MeView, UpdateCustomerProfileView
+from users.api_views import (
+    SignupView,
+    LoginView,
+    MeView,
+    UpdateCustomerProfileView,
+    UpdateProviderProfileView,
+)
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
@@ -11,5 +17,10 @@ urlpatterns = [
         "customer/profile/update/",
         UpdateCustomerProfileView.as_view(),
         name="update_customer_profile",
+    ),
+    path(
+        "provider/profile/update/",
+        UpdateProviderProfileView.as_view(),
+        name="update_provider_profile",
     ),
 ]
