@@ -4,6 +4,7 @@ from services.api_views import (
     ServiceListView,
     ServiceRequestCreateView,
     MyServiceRequestsView,
+    ProposalCreateView,
 )
 
 urlpatterns = [
@@ -11,4 +12,5 @@ urlpatterns = [
     path("", ServiceListView.as_view(), name="service-list"),
     path("request/create/", ServiceRequestCreateView.as_view(), name="create-request"),
     path("request/my/", MyServiceRequestsView.as_view(), name="my-requests"),
+    path("proposal/create/", ProposalCreateView.as_view(), name="create-proposal"),
 ]

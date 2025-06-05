@@ -1,13 +1,14 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from services.models import ServiceCategory, Service
-from users.permissions import IsCustomer
+from users.permissions import IsCustomer, IsProvider
 from rest_framework.permissions import IsAuthenticated
 from services.serializers import (
     ServiceCategorySerializer,
     ServiceSerializer,
     ServiceRequestCreateSerializer,
     ServiceRequestListSerializer,
+    ProposalCreateSerializer,
 )
 from rest_framework import generics
 
@@ -50,3 +51,16 @@ class MyServiceRequestsView(APIView):
         requests = request.user.service_requests.all().order_by("-created_at")
         serializer = ServiceRequestListSerializer(requests, many=True)
         return Response(serializer.data)
+
+
+class ProposalCreateView(APIView):
+    permission_classes = [IsAuthenticated, IsProvider]
+
+    def post(self, request):
+        serializer = ProposalCreateSerializer(
+            data=request.data, context={"request": request}
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "پیشنهاد با موفقیت ارسال شد."}, status=201)
+        return Response(serializer.errors, status=400)
