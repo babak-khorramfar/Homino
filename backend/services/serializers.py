@@ -192,3 +192,22 @@ class ReportCreateSerializer(serializers.ModelSerializer):
             request_id=validated_data.get("request_id"),
         )
         return report
+
+
+class ReportListSerializer(serializers.ModelSerializer):
+    reporter = serializers.CharField(source="reporter.full_name")
+    reported_user = serializers.CharField(
+        source="reported_user.full_name", default=None
+    )
+
+    class Meta:
+        model = Report
+        fields = [
+            "id",
+            "report_type",
+            "message",
+            "reporter",
+            "reported_user",
+            "request_id",
+            "created_at",
+        ]

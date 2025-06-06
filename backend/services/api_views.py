@@ -7,8 +7,9 @@ from services.models import (
     Proposal,
     OrderStatus,
     ServiceRequest,
+    Report,
 )
-from users.permissions import IsCustomer, IsProvider
+from users.permissions import IsCustomer, IsProvider, IsAdminOrSupport
 from rest_framework.permissions import IsAuthenticated
 from services.serializers import (
     MessageCreateSerializer,
@@ -22,6 +23,7 @@ from services.serializers import (
     ProposalCreateSerializer,
     ProposalListSerializer,
     OrderStatusUpdateSerializer,
+    ReportListSerializer,
 )
 from rest_framework import generics
 
@@ -246,3 +248,12 @@ class ReportCreateView(APIView):
             serializer.save()
             return Response({"message": "گزارش با موفقیت ثبت شد."}, status=201)
         return Response(serializer.errors, status=400)
+
+
+class ReportListView(APIView):
+    permission_classes = [IsAuthenticated, IsAdminOrSupport]
+
+    def get(self, request):
+        reports = Report.objects.all().order_by("-created_at")
+        serializer = ReportListSerializer(reports, many=True)
+        return Response(serializer.data)
