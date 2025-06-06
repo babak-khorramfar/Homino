@@ -6,6 +6,7 @@ from services.models import (
     Service,
     Proposal,
     OrderStatus,
+    ServiceRequest,
 )
 from users.permissions import IsCustomer, IsProvider
 from rest_framework.permissions import IsAuthenticated
@@ -170,3 +171,28 @@ class OrderStatusDetailView(APIView):
 
         serializer = OrderStatusDetailSerializer(status)
         return Response(serializer.data)
+
+
+class ScheduledTimeView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, request_id):
+        try:
+            service_request = ServiceRequest.objects.get(id=request_id)
+        except ServiceRequest.DoesNotExist:
+            return Response({"error": "درخواست مورد نظر یافت نشد."}, status=404)
+
+        # فقط مشتری یا متخصص همان سفارش مجاز هستند
+        if service_request.customer != request.user and not hasattr(
+            request.user, "provider_profile"
+        ):
+            return Response(
+                {"error": "شما مجاز به مشاهده این سفارش نیستید."}, status=403
+            )
+
+        return Response(
+            {
+                "request_id": service_request.id,
+                "scheduled_time": service_request.scheduled_time,
+            }
+        )

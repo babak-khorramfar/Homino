@@ -2,6 +2,7 @@ from django.urls import path
 from services.api_views import (
     CategoryListView,
     OrderStatusDetailView,
+    ScheduledTimeView,
     ServiceListView,
     ServiceRequestCreateView,
     MyServiceRequestsView,
@@ -32,5 +33,10 @@ urlpatterns = [
         "order/status/<int:request_id>/",
         OrderStatusDetailView.as_view(),
         name="order-status-detail",
+    ),
+    path(
+        "request/<int:request_id>/scheduled-time/",
+        ScheduledTimeView.as_view(),
+        name="scheduled-time",
     ),
 ]
