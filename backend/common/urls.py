@@ -1,9 +1,18 @@
 from django.urls import path
-from common.api_views import AttachmentListView, AttachmentUploadView
+from common.api_views import (
+    AttachmentDownloadView,
+    AttachmentListView,
+    AttachmentUploadView,
+)
 
 urlpatterns = [
     path(
         "attachment/upload/", AttachmentUploadView.as_view(), name="upload-attachment"
     ),
     path("attachments/", AttachmentListView.as_view(), name="attachment-list"),
+    path(
+        "attachment/download/<int:attachment_id>/",
+        AttachmentDownloadView.as_view(),
+        name="download-attachment",
+    ),
 ]

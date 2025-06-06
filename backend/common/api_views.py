@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.contenttypes.models import ContentType
 from common.models import Attachment
+from django.http import FileResponse, Http404
 
 
 class AttachmentUploadView(APIView):
@@ -49,3 +50,39 @@ class AttachmentListView(APIView):
             attachments, many=True, context={"request": request}
         )
         return Response(serializer.data)
+
+
+class AttachmentDownloadView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, attachment_id):
+        try:
+            attachment = Attachment.objects.select_related("content_type").get(
+                id=attachment_id
+            )
+        except Attachment.DoesNotExist:
+            raise Http404("فایل پیدا نشد.")
+
+        # مدل مرتبط رو واکشی می‌کنیم
+        linked_model = attachment.content_type.model_class()
+        obj = linked_model.objects.filter(id=attachment.object_id).first()
+
+        # بررسی دسترسی
+        user = request.user
+        has_access = False
+
+        if hasattr(obj, "customer") and obj.customer == user:
+            has_access = True
+        elif hasattr(obj, "provider") and obj.provider == user:
+            has_access = True
+        elif hasattr(obj, "sender") and obj.sender == user:
+            has_access = True
+        elif hasattr(obj, "receiver") and obj.receiver == user:
+            has_access = True
+        elif user.is_staff or user.is_superuser:
+            has_access = True
+
+        if not has_access:
+            return Response({"error": "شما به این فایل دسترسی ندارید."}, status=403)
+
+        return FileResponse(attachment.file, filename=attachment.file.name)
