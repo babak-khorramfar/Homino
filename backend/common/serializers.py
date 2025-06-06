@@ -1,5 +1,5 @@
 from backend.services import serializers
-from common.models import Attachment
+from common.models import Attachment, City, Region
 from django.contrib.contenttypes.models import ContentType
 
 
@@ -34,3 +34,17 @@ class AttachmentListSerializer(serializers.ModelSerializer):
     def get_file_url(self, obj):
         request = self.context.get("request")
         return request.build_absolute_uri(obj.file.url) if request else obj.file.url
+
+
+class RegionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Region
+        fields = ["id", "name"]
+
+
+class CityWithRegionsSerializer(serializers.ModelSerializer):
+    regions = RegionSerializer(many=True)
+
+    class Meta:
+        model = City
+        fields = ["id", "name", "regions"]

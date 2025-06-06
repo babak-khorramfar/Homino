@@ -1,10 +1,14 @@
-from common.serializers import AttachmentUploadSerializer, AttachmentListSerializer
+from common.serializers import (
+    AttachmentUploadSerializer,
+    AttachmentListSerializer,
+    CityWithRegionsSerializer,
+)
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.contenttypes.models import ContentType
-from common.models import Attachment
+from common.models import Attachment, City
 from django.http import FileResponse, Http404
 
 
@@ -86,3 +90,10 @@ class AttachmentDownloadView(APIView):
             return Response({"error": "شما به این فایل دسترسی ندارید."}, status=403)
 
         return FileResponse(attachment.file, filename=attachment.file.name)
+
+
+class CityRegionListView(APIView):
+    def get(self, request):
+        cities = City.objects.prefetch_related("regions").all()
+        serializer = CityWithRegionsSerializer(cities, many=True)
+        return Response(serializer.data)
