@@ -34,6 +34,12 @@ LOGGING = {
             "filename": BASE_DIR / "logs/test.log",
             "formatter": "simple",
         },
+        "slow_file": {
+            "level": "WARNING",
+            "class": "logging.FileHandler",
+            "filename": BASE_DIR / "logs/slow_queries.log",
+            "formatter": "simple",
+        },
     },
     "loggers": {
         "django": {
@@ -54,6 +60,11 @@ LOGGING = {
         "mytest": {
             "handlers": ["file"],
             "level": "DEBUG",
+            "propagate": False,
+        },
+        "slow_queries": {
+            "handlers": ["slow_file"],
+            "level": "WARNING",
             "propagate": False,
         },
     },
@@ -107,6 +118,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "common.middleware.ActivityLoggingMiddleware",
+    "common.middleware.slow_query_logger.SlowQueryLoggerMiddleware",
 ]
 
 ROOT_URLCONF = "homino.urls"
