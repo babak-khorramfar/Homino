@@ -22,6 +22,13 @@ class Message(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     deleted_at = models.DateTimeField(null=True, blank=True)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=["request"]),
+            models.Index(fields=["sender"]),
+            models.Index(fields=["receiver"]),
+        ]
+
     def soft_delete(self):
         self.deleted_at = timezone.now()
         self.save()

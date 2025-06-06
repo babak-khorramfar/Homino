@@ -34,9 +34,16 @@ class Proposal(models.Model):
 
     class Meta:
         unique_together = (
-            "request",
-            "provider",
+            (
+                "request",
+                "provider",
+            ),
         )  # جلوگیری از ارسال چندباره برای یک سفارش
+
+        indexes = [
+            models.Index(fields=["request"]),
+            models.Index(fields=["provider"]),
+        ]
 
     def __str__(self):
         return f"Proposal by {self.provider.full_name} for {self.request.id}"
