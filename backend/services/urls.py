@@ -1,6 +1,7 @@
 from django.urls import path
 from services.api_views import (
     CategoryListView,
+    OrderStatusDetailView,
     ServiceListView,
     ServiceRequestCreateView,
     MyServiceRequestsView,
@@ -26,5 +27,10 @@ urlpatterns = [
         "request/<int:request_id>/proposals/",
         RequestProposalsView.as_view(),
         name="request-proposals",
+    ),
+    path(
+        "order/status/<int:request_id>/",
+        OrderStatusDetailView.as_view(),
+        name="order-status-detail",
     ),
 ]

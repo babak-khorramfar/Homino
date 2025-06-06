@@ -102,3 +102,19 @@ class OrderStatusUpdateSerializer(serializers.Serializer):
         choices=[status[0] for status in OrderStatus.STATUS_CHOICES]
     )
     note = serializers.CharField(allow_blank=True, required=False)
+
+
+class OrderStatusDetailSerializer(serializers.ModelSerializer):
+    provider = serializers.CharField(source="provider.full_name")
+
+    class Meta:
+        model = OrderStatus
+        fields = [
+            "request_id",
+            "current_status",
+            "note",
+            "started_at",
+            "finished_at",
+            "canceled_at",
+            "provider",
+        ]

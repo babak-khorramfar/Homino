@@ -10,6 +10,7 @@ from services.models import (
 from users.permissions import IsCustomer, IsProvider
 from rest_framework.permissions import IsAuthenticated
 from services.serializers import (
+    OrderStatusDetailSerializer,
     ServiceCategorySerializer,
     ServiceSerializer,
     ServiceRequestCreateSerializer,
@@ -150,3 +151,22 @@ class UpdateOrderStatusView(APIView):
             return Response({"message": "وضعیت سفارش بروزرسانی شد."}, status=200)
 
         return Response(serializer.errors, status=400)
+
+
+class OrderStatusDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, request_id):
+        try:
+            status = OrderStatus.objects.get(request_id=request_id)
+        except OrderStatus.DoesNotExist:
+            return Response({"error": "اطلاعات وضعیت سفارش یافت نشد."}, status=404)
+
+        user = request.user
+        if status.provider != user and status.request.customer != user:
+            return Response(
+                {"error": "شما مجاز به مشاهده این سفارش نیستید."}, status=403
+            )
+
+        serializer = OrderStatusDetailSerializer(status)
+        return Response(serializer.data)
