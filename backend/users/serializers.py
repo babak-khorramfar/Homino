@@ -60,11 +60,39 @@ class CustomerProfileUpdateSerializer(serializers.ModelSerializer):
         model = CustomerProfile
         fields = ["address", "city", "profile_image"]
 
+    def validate_profile_image(self, image):
+        max_size = 3 * 1024 * 1024  # ۳ مگابایت
+        allowed_types = ["image/jpeg", "image/png"]
+
+        if image.size > max_size:
+            raise serializers.ValidationError(
+                "حجم تصویر نباید بیشتر از ۳ مگابایت باشد."
+            )
+
+        if image.content_type not in allowed_types:
+            raise serializers.ValidationError("فقط فرمت‌های jpg و png مجاز هستند.")
+
+        return image
+
 
 class ProviderProfileUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProviderProfile
         fields = ["bio", "profile_image", "is_available"]
+
+    def validate_profile_image(self, image):
+        max_size = 3 * 1024 * 1024  # ۳ مگابایت
+        allowed_types = ["image/jpeg", "image/png"]
+
+        if image.size > max_size:
+            raise serializers.ValidationError(
+                "حجم تصویر نباید بیشتر از ۳ مگابایت باشد."
+            )
+
+        if image.content_type not in allowed_types:
+            raise serializers.ValidationError("فقط فرمت‌های jpg و png مجاز هستند.")
+
+        return image
 
 
 class SkillSerializer(serializers.ModelSerializer):

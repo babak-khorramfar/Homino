@@ -11,6 +11,20 @@ class AttachmentUploadSerializer(serializers.ModelSerializer):
         model = Attachment
         fields = ["file", "content_type", "object_id"]
 
+    def validate_file(self, file):
+        max_size = 5 * 1024 * 1024  # حداکثر ۵ مگابایت
+        allowed_types = ["image/jpeg", "image/png", "application/pdf"]
+
+        if file.size > max_size:
+            raise serializers.ValidationError("حجم فایل نباید بیشتر از ۵ مگابایت باشد.")
+
+        if file.content_type not in allowed_types:
+            raise serializers.ValidationError(
+                "فرمت فایل مجاز نیست. فقط jpg، png و pdf مجازند."
+            )
+
+        return file
+
     def validate_content_type(self, value):
         try:
             ContentType.objects.get(model=value.lower())
