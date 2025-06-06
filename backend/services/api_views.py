@@ -10,7 +10,12 @@ from services.models import (
     ServiceRequest,
     Report,
 )
-from users.permissions import IsCustomer, IsProvider, IsAdminOrSupport
+from users.permissions import (
+    IsCustomer,
+    IsProvider,
+    IsAdminOrSupport,
+    IsRelatedToObject,
+)
 from users.models import CustomUser
 from rest_framework.permissions import IsAuthenticated
 from services.serializers import (
@@ -353,3 +358,16 @@ class ProviderReviewSummaryView(APIView):
                 "average_total": total_avg,
             }
         )
+
+
+class OrderStatusDetailView(APIView):
+    permission_classes = [IsAuthenticated, IsRelatedToObject]
+
+    def get_object(self):
+        return OrderStatus.objects.get(request_id=self.kwargs["request_id"])
+
+    def get(self, request, request_id):
+        obj = self.get_object()
+        self.check_object_permissions(request, obj)
+        serializer = OrderStatusDetailSerializer(obj)
+        return Response(serializer.data)
