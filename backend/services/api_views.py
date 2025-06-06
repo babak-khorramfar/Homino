@@ -1,5 +1,6 @@
 from datetime import timezone
 from rest_framework.views import APIView
+from django.db.models import Avg
 from rest_framework.response import Response
 from services.models import (
     ServiceCategory,
@@ -10,6 +11,7 @@ from services.models import (
     Report,
 )
 from users.permissions import IsCustomer, IsProvider, IsAdminOrSupport
+from users.models import CustomUser
 from rest_framework.permissions import IsAuthenticated
 from services.serializers import (
     MessageCreateSerializer,
@@ -17,6 +19,7 @@ from services.serializers import (
     OrderStatusDetailSerializer,
     ReportCreateSerializer,
     ReviewCreateSerializer,
+    ReviewListItemSerializer,
     ServiceCategorySerializer,
     ServiceSerializer,
     ServiceRequestCreateSerializer,
@@ -269,3 +272,45 @@ class CreateReviewView(APIView):
             serializer.save()
             return Response({"message": "نظر شما ثبت شد."}, status=201)
         return Response(serializer.errors, status=400)
+
+
+class ProviderReviewStatsView(APIView):
+    def get(self, request, provider_id):
+        try:
+            provider = CustomUser.objects.get(id=provider_id, role="provider")
+        except CustomUser.DoesNotExist:
+            return Response({"error": "متخصص مورد نظر یافت نشد."}, status=404)
+
+        reviews = provider.received_reviews.all()
+        stats = reviews.aggregate(
+            avg_punctuality=Avg("punctuality"),
+            avg_behavior=Avg("behavior"),
+            avg_quality=Avg("quality"),
+        )
+
+        total_avg = (
+            round(
+                (
+                    (stats["avg_punctuality"] or 0)
+                    + (stats["avg_behavior"] or 0)
+                    + (stats["avg_quality"] or 0)
+                )
+                / 3,
+                2,
+            )
+            if reviews.exists()
+            else 0
+        )
+
+        serializer = ReviewListItemSerializer(reviews, many=True)
+
+        return Response(
+            {
+                "provider_id": provider.id,
+                "average_punctuality": round(stats["avg_punctuality"] or 0, 2),
+                "average_behavior": round(stats["avg_behavior"] or 0, 2),
+                "average_quality": round(stats["avg_quality"] or 0, 2),
+                "average_total": total_avg,
+                "reviews": serializer.data,
+            }
+        )

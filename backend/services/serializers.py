@@ -247,3 +247,18 @@ class ReviewCreateSerializer(serializers.ModelSerializer):
             quality=validated_data["quality"],
             comment=validated_data["comment"],
         )
+
+
+class ReviewListItemSerializer(serializers.ModelSerializer):
+    customer = serializers.CharField(source="customer.full_name")
+
+    class Meta:
+        model = Review
+        fields = [
+            "customer",
+            "comment",
+            "punctuality",
+            "behavior",
+            "quality",
+            "created_at",
+        ]

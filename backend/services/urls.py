@@ -4,6 +4,7 @@ from services.api_views import (
     CreateReviewView,
     MessageListView,
     OrderStatusDetailView,
+    ProviderReviewStatsView,
     ReportCreateView,
     ReportListView,
     ScheduledTimeView,
@@ -52,5 +53,10 @@ urlpatterns = [
         "request/<int:request_id>/messages/",
         MessageListView.as_view(),
         name="message-list",
+    ),
+    path(
+        "review/provider/<int:provider_id>/",
+        ProviderReviewStatsView.as_view(),
+        name="provider-reviews",
     ),
 ]
