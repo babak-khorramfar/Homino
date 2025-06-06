@@ -49,7 +49,9 @@ class AttachmentListView(APIView):
         except ContentType.DoesNotExist:
             return Response({"error": "content_type نامعتبر است."}, status=400)
 
-        attachments = Attachment.objects.filter(content_type=model, object_id=object_id)
+        attachments = Attachment.objects.select_related("content_type").filter(
+            content_type=model, object_id=object_id
+        )
         serializer = AttachmentListSerializer(
             attachments, many=True, context={"request": request}
         )

@@ -72,7 +72,11 @@ class MyServiceRequestsView(APIView):
     permission_classes = [IsAuthenticated, IsCustomer]
 
     def get(self, request):
-        requests = request.user.service_requests.all().order_by("-created_at")
+        requests = (
+            request.user.service_requests.select_related("service")
+            .all()
+            .order_by("-created_at")
+        )
         serializer = ServiceRequestListSerializer(requests, many=True)
         return Response(serializer.data)
 
@@ -99,7 +103,11 @@ class RequestProposalsView(APIView):
         except:
             return Response({"error": "دسترسی غیرمجاز یا سفارش یافت نشد."}, status=404)
 
-        proposals = service_request.proposals.all().order_by("-created_at")
+        proposals = (
+            service_request.proposals.select_related("provider")
+            .all()
+            .order_by("-created_at")
+        )
         serializer = ProposalListSerializer(proposals, many=True)
         return Response(serializer.data)
 
@@ -241,7 +249,11 @@ class MessageListView(APIView):
         ):
             return Response({"error": "شما به این مکالمه دسترسی ندارید."}, status=403)
 
-        messages = service_request.messages.all().order_by("created_at")
+        messages = (
+            service_request.messages.select_related("sender", "receiver")
+            .all()
+            .order_by("created_at")
+        )
         serializer = MessageListSerializer(messages, many=True)
         return Response(serializer.data)
 
@@ -286,7 +298,7 @@ class ProviderReviewStatsView(APIView):
         except CustomUser.DoesNotExist:
             return Response({"error": "متخصص مورد نظر یافت نشد."}, status=404)
 
-        reviews = provider.received_reviews.all()
+        reviews = provider.received_reviews.select_related("customer").all()
         stats = reviews.aggregate(
             avg_punctuality=Avg("punctuality"),
             avg_behavior=Avg("behavior"),
