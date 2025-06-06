@@ -12,6 +12,7 @@ from users.permissions import IsCustomer, IsProvider
 from rest_framework.permissions import IsAuthenticated
 from services.serializers import (
     MessageCreateSerializer,
+    MessageListSerializer,
     OrderStatusDetailSerializer,
     ServiceCategorySerializer,
     ServiceSerializer,
@@ -210,3 +211,24 @@ class SendMessageView(APIView):
             serializer.save()
             return Response({"message": "پیام با موفقیت ارسال شد."}, status=201)
         return Response(serializer.errors, status=400)
+
+
+class MessageListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, request_id):
+        from services.models import ServiceRequest
+
+        try:
+            service_request = ServiceRequest.objects.get(id=request_id)
+        except ServiceRequest.DoesNotExist:
+            return Response({"error": "سفارش مورد نظر یافت نشد."}, status=404)
+
+        if service_request.customer != request.user and not hasattr(
+            request.user, "provider_profile"
+        ):
+            return Response({"error": "شما به این مکالمه دسترسی ندارید."}, status=403)
+
+        messages = service_request.messages.all().order_by("created_at")
+        serializer = MessageListSerializer(messages, many=True)
+        return Response(serializer.data)

@@ -155,3 +155,12 @@ class MessageCreateSerializer(serializers.ModelSerializer):
             request_id=validated_data["request_id"],
             content=validated_data["content"],
         )
+
+
+class MessageListSerializer(serializers.ModelSerializer):
+    sender = serializers.CharField(source="sender.full_name")
+    receiver = serializers.CharField(source="receiver.full_name")
+
+    class Meta:
+        model = Message
+        fields = ["id", "sender", "receiver", "content", "created_at"]
