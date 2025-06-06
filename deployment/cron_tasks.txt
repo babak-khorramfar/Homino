@@ -1,0 +1,3 @@
+# اجرای هفتگی پاک‌سازی لاگ‌های قدیمی و فایل‌های orphan
+0 3 * * 6 cd /home/ubuntu/Homino/backend && /home/ubuntu/venv/bin/python manage.py cleanup_old_logs
+0 3 * * 6 cd /home/ubuntu/Homino/backend && /home/ubuntu/venv/bin/python manage.py cleanup_orphan_files

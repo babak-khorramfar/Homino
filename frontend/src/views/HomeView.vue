@@ -38,25 +38,41 @@
       </div>
     </div>
 
-    <!-- زیرشاخه‌ها -->
-    <div v-if="selectedCategory" class="mt-8">
-      <h3 class="text-sm font-semibold text-gray-800 mb-4">
-        {{ selectedCategory }} Services
-      </h3>
-      <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
-        <div
-          v-for="(sub, i) in allSubcategories[selectedCategory]"
-          :key="i"
-          class="rounded-xl p-4 text-center shadow-sm cursor-pointer transition hover:shadow-md"
-          :class="sub.bg"
-        >
-          <i :class="['text-xl mb-2 block', sub.icon, sub.color]"></i>
-          <p class="text-sm font-semibold">{{ sub.name }}</p>
+    <!-- بخش زیرشاخه‌ها -->
+    <div class="mt-6 " v-if="selectedCategory && subcategories[selectedCategory]">
+    <h2 class="text-md font-bold text-gray-800 mb-3">{{ selectedCategory }} Services</h2>
+    <div class="flex gap-4 overflow-x-auto pb-2 px-1 no-scrollbar">
+      <div
+        v-for="(sub, idx) in subcategories[selectedCategory]"
+        :key="idx"
+        :class="[
+          'w-[120px] h-[160px] shadow rounded-xl p-4 flex flex-col items-center justify-center border shadow-sm cursor-pointer transition-all duration-300',
+          sub.bg,
+          sub.border
+        ]"
+        style="flex: 0 0 auto;"
+      >
+        <div :class="['mb-2 w-12 h-12 rounded-full flex items-center justify-center', sub.iconBg]">
+          <i :class="[sub.icon, sub.iconColor, 'text-2xl']"></i>
+        </div>
+        <div class="text-center">
+          <p :class="[sub.textColor, 'text-sm font-semibold leading-tight']">{{ sub.label }}</p>
         </div>
       </div>
     </div>
   </div>
+  </div>
 </template>
+
+<style>
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+</style>
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -120,28 +136,118 @@ const categories = [
   }
 ]
 
-const allSubcategories = {
+const subcategories = {
   Cleaning: [
-    { name: 'Deep Cleaning', icon: 'ph ph-broom', bg: 'bg-green-100', color: 'text-green-600' },
-    { name: 'Stain Removal', icon: 'ph ph-sparkle', bg: 'bg-green-100', color: 'text-green-600' },
-    { name: 'Window Washing', icon: 'ph ph-windows-logo', bg: 'bg-green-100', color: 'text-green-600' },
-    { name: 'Kitchen Clean', icon: 'ph ph-cooking-pot', bg: 'bg-green-100', color: 'text-green-600' }
+    {
+      label: 'Window Washing',
+      icon: 'ph ph-windows-logo',
+      bg: 'bg-green-50', border: 'border-green-300',
+      iconBg: 'bg-green-100', iconColor: 'text-green-600', textColor: 'text-green-600'
+    },
+    {
+      label: 'Stain Removal',
+      icon: 'ph ph-sparkle',
+      bg: 'bg-green-50', border: 'border-green-300',
+      iconBg: 'bg-green-100', iconColor: 'text-green-600', textColor: 'text-green-600'
+    },
+    {
+      label: 'Deep Cleaning',
+      icon: 'ph ph-broom',
+      bg: 'bg-green-50', border: 'border-green-300',
+      iconBg: 'bg-green-100', iconColor: 'text-green-600', textColor: 'text-green-600'
+    },
+    {
+      label: 'Kitchen Clean',
+      icon: 'ph ph-pot',
+      bg: 'bg-green-50', border: 'border-green-300',
+      iconBg: 'bg-green-100', iconColor: 'text-green-600', textColor: 'text-green-600'
+    }
   ],
   Painting: [
-    { name: 'Interior Paint', icon: 'ph ph-wall', bg: 'bg-rose-100', color: 'text-rose-600' },
-    { name: 'Exterior Paint', icon: 'ph ph-paint-bucket', bg: 'bg-rose-100', color: 'text-rose-600' }
+    {
+      label: 'Wall Painting',
+      icon: 'ph ph-paint-brush',
+      bg: 'bg-rose-50', border: 'border-rose-300',
+      iconBg: 'bg-rose-100', iconColor: 'text-rose-500', textColor: 'text-rose-500'
+    },
+    {
+      label: 'Ceiling Painting',
+      icon: 'ph ph-brush-broad',
+      bg: 'bg-rose-50', border: 'border-rose-300',
+      iconBg: 'bg-rose-100', iconColor: 'text-rose-500', textColor: 'text-rose-500'
+    },
+    {
+      label: 'Door Painting',
+      icon: 'ph ph-door',
+      bg: 'bg-rose-50', border: 'border-rose-300',
+      iconBg: 'bg-rose-100', iconColor: 'text-rose-500', textColor: 'text-rose-500'
+    },
+    {
+      label: 'Furniture Painting',
+      icon: 'ph ph-armchair',
+      bg: 'bg-rose-50', border: 'border-rose-300',
+      iconBg: 'bg-rose-100', iconColor: 'text-rose-500', textColor: 'text-rose-500'
+    }
   ],
   Vehicle: [
-    { name: 'Car Wash', icon: 'ph ph-car-profile', bg: 'bg-purple-100', color: 'text-purple-600' },
-    { name: 'Oil Change', icon: 'ph ph-engine', bg: 'bg-purple-100', color: 'text-purple-600' }
+    {
+      label: 'Car Wash',
+      icon: 'ph ph-car',
+      bg: 'bg-purple-50', border: 'border-purple-300',
+      iconBg: 'bg-purple-100', iconColor: 'text-purple-600', textColor: 'text-purple-600'
+    },
+    {
+      label: 'Oil Change',
+      icon: 'ph ph-oil-can',
+      bg: 'bg-purple-50', border: 'border-purple-300',
+      iconBg: 'bg-purple-100', iconColor: 'text-purple-600', textColor: 'text-purple-600'
+    },
+    {
+      label: 'Tire Service',
+      icon: 'ph ph-steering-wheel',
+      bg: 'bg-purple-50', border: 'border-purple-300',
+      iconBg: 'bg-purple-100', iconColor: 'text-purple-600', textColor: 'text-purple-600'
+    }
   ],
   Labour: [
-    { name: 'Home Helper', icon: 'ph ph-house', bg: 'bg-blue-100', color: 'text-blue-600' },
-    { name: 'Mover', icon: 'ph ph-armchair', bg: 'bg-blue-100', color: 'text-blue-600' }
+    {
+      label: 'Moving Help',
+      icon: 'ph ph-truck',
+      bg: 'bg-blue-50', border: 'border-blue-300',
+      iconBg: 'bg-blue-100', iconColor: 'text-blue-500', textColor: 'text-blue-500'
+    },
+    {
+      label: 'Assembly',
+      icon: 'ph ph-wrench',
+      bg: 'bg-blue-50', border: 'border-blue-300',
+      iconBg: 'bg-blue-100', iconColor: 'text-blue-500', textColor: 'text-blue-500'
+    },
+    {
+      label: 'General Help',
+      icon: 'ph ph-user',
+      bg: 'bg-blue-50', border: 'border-blue-300',
+      iconBg: 'bg-blue-100', iconColor: 'text-blue-500', textColor: 'text-blue-500'
+    }
   ],
   Electrical: [
-    { name: 'Switch Fixing', icon: 'ph ph-light-switch', bg: 'bg-yellow-100', color: 'text-yellow-600' },
-    { name: 'LED Install', icon: 'ph ph-lightbulb', bg: 'bg-yellow-100', color: 'text-yellow-600' }
+    {
+      label: 'Wiring',
+      icon: 'ph ph-lightning',
+      bg: 'bg-yellow-50', border: 'border-yellow-300',
+      iconBg: 'bg-yellow-100', iconColor: 'text-yellow-500', textColor: 'text-yellow-500'
+    },
+    {
+      label: 'Lighting',
+      icon: 'ph ph-lamp',
+      bg: 'bg-yellow-50', border: 'border-yellow-300',
+      iconBg: 'bg-yellow-100', iconColor: 'text-yellow-500', textColor: 'text-yellow-500'
+    },
+    {
+      label: 'Power Outlets',
+      icon: 'ph ph-plug',
+      bg: 'bg-yellow-50', border: 'border-yellow-300',
+      iconBg: 'bg-yellow-100', iconColor: 'text-yellow-500', textColor: 'text-yellow-500'
+    }
   ]
 }
 </script>

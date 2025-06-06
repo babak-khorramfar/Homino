@@ -61,7 +61,7 @@ export default {
         { name: 'services', label: 'Services', path: '/services', icon: 'ph ph-stack' },
         { name: 'orders', label: 'Orders', path: '/orders', icon: 'ph ph-list-bullets' },
         { name: 'home', label: 'Home', path: '/', icon: 'ph ph-house' },
-        { name: 'notifications', label: 'Notifications', path: '/notifications', icon: 'ph ph-bell' },
+        { name: 'providers', label: 'Top Providers', path: '/providers', icon: 'ph ph-users' },
         { name: 'settings', label: 'Settings', path: '/settings', icon: 'ph ph-gear-six' }
         ]
 
