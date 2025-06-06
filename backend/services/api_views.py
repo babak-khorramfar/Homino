@@ -14,6 +14,7 @@ from services.serializers import (
     MessageCreateSerializer,
     MessageListSerializer,
     OrderStatusDetailSerializer,
+    ReportCreateSerializer,
     ServiceCategorySerializer,
     ServiceSerializer,
     ServiceRequestCreateSerializer,
@@ -232,3 +233,16 @@ class MessageListView(APIView):
         messages = service_request.messages.all().order_by("created_at")
         serializer = MessageListSerializer(messages, many=True)
         return Response(serializer.data)
+
+
+class ReportCreateView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = ReportCreateSerializer(
+            data=request.data, context={"request": request}
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "گزارش با موفقیت ثبت شد."}, status=201)
+        return Response(serializer.errors, status=400)

@@ -7,6 +7,7 @@ from services.models import (
     Proposal,
     OrderStatus,
     Message,
+    Report,
 )
 
 
@@ -164,3 +165,30 @@ class MessageListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
         fields = ["id", "sender", "receiver", "content", "created_at"]
+
+
+class ReportCreateSerializer(serializers.ModelSerializer):
+    reported_user_id = serializers.IntegerField(required=False)
+    request_id = serializers.IntegerField(required=False)
+
+    class Meta:
+        model = Report
+        fields = ["report_type", "reported_user_id", "request_id", "message"]
+
+    def validate(self, data):
+        if not data.get("reported_user_id") and not data.get("request_id"):
+            raise serializers.ValidationError(
+                "باید حداقل یکی از فیلدهای reported_user_id یا request_id را وارد کنید."
+            )
+        return data
+
+    def create(self, validated_data):
+        reporter = self.context["request"].user
+        report = Report.objects.create(
+            reporter=reporter,
+            report_type=validated_data["report_type"],
+            message=validated_data["message"],
+            reported_user_id=validated_data.get("reported_user_id"),
+            request_id=validated_data.get("request_id"),
+        )
+        return report

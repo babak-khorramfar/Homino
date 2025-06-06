@@ -3,6 +3,7 @@ from services.api_views import (
     CategoryListView,
     MessageListView,
     OrderStatusDetailView,
+    ReportCreateView,
     ScheduledTimeView,
     SendMessageView,
     ServiceListView,
@@ -22,6 +23,7 @@ urlpatterns = [
     path("proposal/create/", ProposalCreateView.as_view(), name="create-proposal"),
     path("proposal/accept/", AcceptProposalView.as_view(), name="accept-proposal"),
     path("message/send/", SendMessageView.as_view(), name="send-message"),
+    path("report/create/", ReportCreateView.as_view(), name="create-report"),
     path(
         "order/status/update/",
         UpdateOrderStatusView.as_view(),
