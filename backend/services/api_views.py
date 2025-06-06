@@ -1,6 +1,12 @@
+from datetime import timezone
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from services.models import ServiceCategory, Service, Proposal, ServiceRequest
+from services.models import (
+    ServiceCategory,
+    Service,
+    Proposal,
+    OrderStatus,
+)
 from users.permissions import IsCustomer, IsProvider
 from rest_framework.permissions import IsAuthenticated
 from services.serializers import (
@@ -10,6 +16,7 @@ from services.serializers import (
     ServiceRequestListSerializer,
     ProposalCreateSerializer,
     ProposalListSerializer,
+    OrderStatusUpdateSerializer,
 )
 from rest_framework import generics
 
@@ -111,3 +118,35 @@ class AcceptProposalView(APIView):
         )
 
         return Response({"message": "پیشنهاد با موفقیت تأیید شد."}, status=200)
+
+
+class UpdateOrderStatusView(APIView):
+    permission_classes = [IsAuthenticated, IsProvider]
+
+    def post(self, request):
+        serializer = OrderStatusUpdateSerializer(data=request.data)
+        if serializer.is_valid():
+            data = serializer.validated_data
+            try:
+                status_obj = OrderStatus.objects.get(
+                    request_id=data["request_id"], provider=request.user
+                )
+            except OrderStatus.DoesNotExist:
+                return Response(
+                    {"error": "شما دسترسی به این سفارش ندارید یا وضعیت موجود نیست."},
+                    status=404,
+                )
+
+            status_obj.current_status = data["new_status"]
+            status_obj.note = data.get("note", "")
+            if data["new_status"] == "started":
+                status_obj.started_at = timezone.now()
+            elif data["new_status"] == "finished":
+                status_obj.finished_at = timezone.now()
+            elif data["new_status"] == "canceled":
+                status_obj.canceled_at = timezone.now()
+            status_obj.save()
+
+            return Response({"message": "وضعیت سفارش بروزرسانی شد."}, status=200)
+
+        return Response(serializer.errors, status=400)

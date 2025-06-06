@@ -1,5 +1,11 @@
 from rest_framework import serializers
-from services.models import ServiceCategory, Service, ServiceRequest, Proposal
+from services.models import (
+    ServiceCategory,
+    Service,
+    ServiceRequest,
+    Proposal,
+    OrderStatus,
+)
 
 
 class SubCategorySerializer(serializers.ModelSerializer):
@@ -88,3 +94,11 @@ class ProposalListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Proposal
         fields = ["id", "provider", "price", "message", "created_at"]
+
+
+class OrderStatusUpdateSerializer(serializers.Serializer):
+    request_id = serializers.IntegerField()
+    new_status = serializers.ChoiceField(
+        choices=[status[0] for status in OrderStatus.STATUS_CHOICES]
+    )
+    note = serializers.CharField(allow_blank=True, required=False)

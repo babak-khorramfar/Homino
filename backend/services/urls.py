@@ -7,6 +7,7 @@ from services.api_views import (
     ProposalCreateView,
     RequestProposalsView,
     AcceptProposalView,
+    UpdateOrderStatusView,
 )
 
 urlpatterns = [
@@ -16,6 +17,11 @@ urlpatterns = [
     path("request/my/", MyServiceRequestsView.as_view(), name="my-requests"),
     path("proposal/create/", ProposalCreateView.as_view(), name="create-proposal"),
     path("proposal/accept/", AcceptProposalView.as_view(), name="accept-proposal"),
+    path(
+        "order/status/update/",
+        UpdateOrderStatusView.as_view(),
+        name="update-order-status",
+    ),
     path(
         "request/<int:request_id>/proposals/",
         RequestProposalsView.as_view(),
