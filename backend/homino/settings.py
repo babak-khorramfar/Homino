@@ -282,5 +282,5 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024  # مخصوص فایل‌ها
 
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # آدرس frontend VueJS در dev
+    "http://localhost:3000",
 ]
