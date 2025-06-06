@@ -1,6 +1,7 @@
 from django.urls import path
 from services.api_views import (
     CategoryListView,
+    CreateReviewView,
     MessageListView,
     OrderStatusDetailView,
     ReportCreateView,
@@ -26,6 +27,7 @@ urlpatterns = [
     path("message/send/", SendMessageView.as_view(), name="send-message"),
     path("report/create/", ReportCreateView.as_view(), name="create-report"),
     path("report/list/", ReportListView.as_view(), name="report-list"),
+    path("review/create/", CreateReviewView.as_view(), name="create-review"),
     path(
         "order/status/update/",
         UpdateOrderStatusView.as_view(),

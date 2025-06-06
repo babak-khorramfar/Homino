@@ -8,6 +8,7 @@ from services.models import (
     OrderStatus,
     Message,
     Report,
+    Review,
 )
 
 
@@ -211,3 +212,38 @@ class ReportListSerializer(serializers.ModelSerializer):
             "request_id",
             "created_at",
         ]
+
+
+class ReviewCreateSerializer(serializers.ModelSerializer):
+    request_id = serializers.IntegerField()
+
+    class Meta:
+        model = Review
+        fields = ["request_id", "punctuality", "behavior", "quality", "comment"]
+
+    def validate_request_id(self, value):
+        try:
+            request = ServiceRequest.objects.get(id=value)
+        except ServiceRequest.DoesNotExist:
+            raise serializers.ValidationError("درخواست یافت نشد.")
+        if request.review:
+            raise serializers.ValidationError(
+                "برای این سفارش قبلاً بازخورد ثبت شده است."
+            )
+        if request.status != "finished":
+            raise serializers.ValidationError(
+                "فقط پس از اتمام سفارش می‌توان نظر ثبت کرد."
+            )
+        return value
+
+    def create(self, validated_data):
+        service_request = ServiceRequest.objects.get(id=validated_data["request_id"])
+        return Review.objects.create(
+            request=service_request,
+            customer=service_request.customer,
+            provider=service_request.order_status.provider,
+            punctuality=validated_data["punctuality"],
+            behavior=validated_data["behavior"],
+            quality=validated_data["quality"],
+            comment=validated_data["comment"],
+        )

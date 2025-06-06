@@ -16,6 +16,7 @@ from services.serializers import (
     MessageListSerializer,
     OrderStatusDetailSerializer,
     ReportCreateSerializer,
+    ReviewCreateSerializer,
     ServiceCategorySerializer,
     ServiceSerializer,
     ServiceRequestCreateSerializer,
@@ -257,3 +258,14 @@ class ReportListView(APIView):
         reports = Report.objects.all().order_by("-created_at")
         serializer = ReportListSerializer(reports, many=True)
         return Response(serializer.data)
+
+
+class CreateReviewView(APIView):
+    permission_classes = [IsAuthenticated, IsCustomer]
+
+    def post(self, request):
+        serializer = ReviewCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "نظر شما ثبت شد."}, status=201)
+        return Response(serializer.errors, status=400)
