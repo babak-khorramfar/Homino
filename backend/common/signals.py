@@ -1,7 +1,8 @@
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from services.models import ServiceRequest, Proposal, Message, Review
-from common.models import ActivityLog
+from common.models import ActivityLog, Attachment
+import os
 
 
 @receiver(post_save, sender=ServiceRequest)
@@ -28,3 +29,9 @@ def log_message(sender, instance, created, **kwargs):
 def log_review(sender, instance, created, **kwargs):
     if created:
         ActivityLog.objects.create(user=instance.customer, action="submit_review")
+
+
+@receiver(post_delete, sender=Attachment)
+def delete_attachment_file(sender, instance, **kwargs):
+    if instance.file and os.path.isfile(instance.file.path):
+        os.remove(instance.file.path)
