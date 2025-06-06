@@ -22,3 +22,15 @@ class AttachmentUploadSerializer(serializers.ModelSerializer):
         model = validated_data.pop("content_type").lower()
         content_type = ContentType.objects.get(model=model)
         return Attachment.objects.create(content_type=content_type, **validated_data)
+
+
+class AttachmentListSerializer(serializers.ModelSerializer):
+    file_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Attachment
+        fields = ["id", "file_url", "uploaded_at"]
+
+    def get_file_url(self, obj):
+        request = self.context.get("request")
+        return request.build_absolute_uri(obj.file.url) if request else obj.file.url
