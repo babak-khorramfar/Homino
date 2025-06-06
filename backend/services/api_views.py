@@ -11,6 +11,7 @@ from services.models import (
 from users.permissions import IsCustomer, IsProvider
 from rest_framework.permissions import IsAuthenticated
 from services.serializers import (
+    MessageCreateSerializer,
     OrderStatusDetailSerializer,
     ServiceCategorySerializer,
     ServiceSerializer,
@@ -196,3 +197,16 @@ class ScheduledTimeView(APIView):
                 "scheduled_time": service_request.scheduled_time,
             }
         )
+
+
+class SendMessageView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = MessageCreateSerializer(
+            data=request.data, context={"request": request}
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "پیام با موفقیت ارسال شد."}, status=201)
+        return Response(serializer.errors, status=400)

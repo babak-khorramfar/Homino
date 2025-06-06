@@ -1,10 +1,12 @@
 from rest_framework import serializers
+from users.models import CustomUser
 from services.models import (
     ServiceCategory,
     Service,
     ServiceRequest,
     Proposal,
     OrderStatus,
+    Message,
 )
 
 
@@ -118,3 +120,38 @@ class OrderStatusDetailSerializer(serializers.ModelSerializer):
             "canceled_at",
             "provider",
         ]
+
+
+class MessageCreateSerializer(serializers.ModelSerializer):
+    request_id = serializers.IntegerField()
+    receiver_id = serializers.IntegerField()
+
+    class Meta:
+        model = Message
+        fields = ["request_id", "receiver_id", "content"]
+
+    def validate(self, data):
+        from services.models import ServiceRequest
+
+        try:
+            request_obj = ServiceRequest.objects.get(id=data["request_id"])
+        except ServiceRequest.DoesNotExist:
+            raise serializers.ValidationError("درخواست مورد نظر یافت نشد.")
+
+        if data["receiver_id"] == self.context["request"].user.id:
+            raise serializers.ValidationError("گیرنده نمی‌توانید خودتان باشید.")
+
+        try:
+            receiver = CustomUser.objects.get(id=data["receiver_id"])
+        except CustomUser.DoesNotExist:
+            raise serializers.ValidationError("گیرنده یافت نشد.")
+
+        return data
+
+    def create(self, validated_data):
+        return Message.objects.create(
+            sender=self.context["request"].user,
+            receiver_id=validated_data["receiver_id"],
+            request_id=validated_data["request_id"],
+            content=validated_data["content"],
+        )
