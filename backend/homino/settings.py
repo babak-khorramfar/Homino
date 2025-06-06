@@ -12,9 +12,52 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+import logging.handlers
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "simple": {
+            "format": "[{levelname}] {asctime} {name} >> {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "file": {
+            "level": "DEBUG",
+            "class": "logging.handlers.WatchedFileHandler",
+            "filename": BASE_DIR / "logs/test.log",
+            "formatter": "simple",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["file"],
+            "level": "INFO",
+            "propagate": True,
+        },
+        "django.request": {
+            "handlers": ["file"],
+            "level": "ERROR",
+            "propagate": False,
+        },
+        "django.security": {
+            "handlers": ["file"],
+            "level": "WARNING",
+            "propagate": False,
+        },
+        "mytest": {
+            "handlers": ["file"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+    },
+}
 
 LOCALE_PATHS = [
     BASE_DIR / "locale",
@@ -51,9 +94,11 @@ INSTALLED_APPS = [
     "pwa",
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -215,3 +260,27 @@ SIMPLE_JWT.update(
         "ROTATE_REFRESH_TOKENS": True,
     }
 )
+
+
+# ✅ جلوگیری از XSS
+SECURE_BROWSER_XSS_FILTER = True
+
+# ✅ جلوگیری از MIME sniffing
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# ✅ جلوگیری از قرارگیری سایت در iframe دیگر دامنه‌ها (جلوگیری از Clickjacking)
+X_FRAME_OPTIONS = "DENY"
+
+# ✅ اجباری کردن HTTPS در کوکی‌ها (در فاز production)
+SESSION_COOKIE_SECURE = False  # تغییر به True در production
+CSRF_COOKIE_SECURE = False  # تغییر به True در production
+
+
+# ✅ جلوگیری از ارسال body بزرگ (مثلاً آپلود مشکوک)
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024  # حداکثر ۵ مگابایت
+FILE_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024  # مخصوص فایل‌ها
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # آدرس frontend VueJS در dev
+]
