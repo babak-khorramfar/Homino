@@ -40,6 +40,30 @@ LOGGING = {
             "filename": BASE_DIR / "logs/slow_queries.log",
             "formatter": "simple",
         },
+        "django_file": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": BASE_DIR / "logs/django.log",
+            "formatter": "simple",
+        },
+        "error_file": {
+            "level": "ERROR",
+            "class": "logging.FileHandler",
+            "filename": BASE_DIR / "logs/errors.log",
+            "formatter": "simple",
+        },
+        "drf_file": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": BASE_DIR / "logs/drf.log",
+            "formatter": "simple",
+        },
+        "custom_file": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": BASE_DIR / "logs/custom.log",
+            "formatter": "simple",
+        },
     },
     "loggers": {
         "django": {
@@ -57,14 +81,29 @@ LOGGING = {
             "level": "WARNING",
             "propagate": False,
         },
-        "mytest": {
-            "handlers": ["file"],
-            "level": "DEBUG",
-            "propagate": False,
-        },
         "slow_queries": {
             "handlers": ["slow_file"],
             "level": "WARNING",
+            "propagate": False,
+        },
+        "rest_framework": {
+            "handlers": ["drf_file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "users": {
+            "handlers": ["custom_file"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+        "services": {
+            "handlers": ["custom_file"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+        "common": {
+            "handlers": ["custom_file"],
+            "level": "DEBUG",
             "propagate": False,
         },
     },
