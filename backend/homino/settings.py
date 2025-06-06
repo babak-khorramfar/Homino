@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "mptt",
     "pwa",
     "rest_framework",
+    "rest_framework_simplejwt.token_blacklist",
 ]
 
 MIDDLEWARE = [
@@ -200,4 +201,17 @@ from datetime import timedelta
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=7),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": False,
+    "UPDATE_LAST_LOGIN": True,
+    "AUTH_HEADER_TYPES": ("Bearer",),
 }
+
+SIMPLE_JWT.update(
+    {
+        "ALGORITHM": "HS256",
+        "SIGNING_KEY": SECRET_KEY,
+        "BLACKLIST_AFTER_ROTATION": True,
+        "ROTATE_REFRESH_TOKENS": True,
+    }
+)

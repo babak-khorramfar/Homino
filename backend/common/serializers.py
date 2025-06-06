@@ -1,6 +1,6 @@
-from backend.services import serializers
 from common.models import Attachment, City, Region
 from django.contrib.contenttypes.models import ContentType
+from rest_framework import serializers
 
 
 class AttachmentUploadSerializer(serializers.ModelSerializer):

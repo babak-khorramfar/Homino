@@ -14,6 +14,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
 from users.permissions import IsCustomer, IsProvider
 from common.models import ActivityLog
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.token_blacklist.models import (
+    BlacklistedToken,
+    OutstandingToken,
+)
 
 
 class SignupView(APIView):
@@ -136,3 +141,16 @@ class ProviderSkillUpdateView(APIView):
             )
             return Response({"message": "مهارت‌ها با موفقیت بروزرسانی شدند."})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LogoutRealView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            refresh_token = request.data["refresh"]
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return Response({"message": "خروج با موفقیت انجام شد."}, status=200)
+        except Exception as e:
+            return Response({"error": "توکن معتبر نیست یا قبلاً باطل شده."}, status=400)

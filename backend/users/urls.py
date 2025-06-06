@@ -1,5 +1,6 @@
 from django.urls import path
 from users.api_views import (
+    LogoutRealView,
     SignupView,
     LoginView,
     MeView,
@@ -18,6 +19,7 @@ urlpatterns = [
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("me/", MeView.as_view(), name="me"),
     path("provider/skills/", ProviderSkillListView.as_view(), name="provider-skills"),
+    path("logout/real/", LogoutRealView.as_view(), name="logout-real"),
     path(
         "provider/skills/update/",
         ProviderSkillUpdateView.as_view(),
