@@ -9,6 +9,8 @@ from users.api_views import (
     LogoutView,
     ProviderSkillListView,
     ProviderSkillUpdateView,
+    SendOTPView,
+    VerifyOTPView,
 )
 from rest_framework_simplejwt.views import TokenRefreshView
 
@@ -20,6 +22,8 @@ urlpatterns = [
     path("me/", MeView.as_view(), name="me"),
     path("provider/skills/", ProviderSkillListView.as_view(), name="provider-skills"),
     path("logout/real/", LogoutRealView.as_view(), name="logout-real"),
+    path("auth/send-otp/", SendOTPView.as_view(), name="send-otp"),
+    path("auth/verify-otp/", VerifyOTPView.as_view(), name="verify-otp"),
     path(
         "provider/skills/update/",
         ProviderSkillUpdateView.as_view(),

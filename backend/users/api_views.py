@@ -1,7 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models.user import CustomUser
 from users.serializers import (
     SignupSerializer,
     LoginSerializer,
@@ -13,7 +12,7 @@ from users.serializers import (
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
 from users.permissions import IsCustomer, IsProvider
-from common.models import ActivityLog
+from common.models import ActivityLog, CustomUser, CustomerProfile, ProviderProfile
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.token_blacklist.models import (
     BlacklistedToken,
@@ -41,6 +40,64 @@ class LoginView(APIView):
             ActivityLog.objects.create(user=user, action="login")
             return Response(serializer.validated_data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SendOTPView(APIView):
+    def post(self, request):
+        phone = request.data.get("phone")
+        if not phone:
+            return Response({"detail": "شماره تلفن الزامی است."}, status=400)
+
+        # ساخت کد تأیید تستی (در آینده واقعی)
+        code = "123456"
+
+        # ذخیره موقتی در session (فعلاً ساده)
+        request.session[f"otp_{phone}"] = code
+
+        return Response({"message": "کد تأیید ارسال شد."}, status=200)
+
+
+class VerifyOTPView(APIView):
+    def post(self, request):
+        phone = request.data.get("phone")
+        code = request.data.get("otp")
+        role = request.data.get("role")  # فقط برای ثبت‌نام
+
+        if not phone or not code:
+            return Response({"detail": "شماره یا کد ناقص است."}, status=400)
+
+        session_code = request.session.get(f"otp_{phone}")
+        if session_code != code:
+            return Response({"detail": "کد تأیید نادرست است."}, status=400)
+
+        try:
+            user = CustomUser.objects.get(phone=phone)
+        except CustomUser.DoesNotExist:
+            if not role:
+                return Response(
+                    {"detail": "کاربر جدید است. انتخاب نقش الزامی است."}, status=400
+                )
+
+            user = CustomUser.objects.create(
+                phone=phone, full_name="کاربر جدید", role=role
+            )
+            user.set_unusable_password()
+            user.save()
+
+            if role == "customer":
+                CustomerProfile.objects.create(user=user)
+            elif role == "provider":
+                ProviderProfile.objects.create(user=user)
+
+        refresh = RefreshToken.for_user(user)
+        return Response(
+            {
+                "access": str(refresh.access_token),
+                "refresh": str(refresh),
+                "role": user.role,
+            },
+            status=200,
+        )
 
 
 class LogoutView(APIView):
