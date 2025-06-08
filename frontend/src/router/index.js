@@ -7,12 +7,14 @@ import ProviderLayout from '../layouts/ProviderLayout.vue'
 import CustomerDashboard from '../views/customer/CustomerDashboard.vue'
 import ProviderDashboard from '../views/provider/ProviderDashboard.vue'
 import { useUserStore } from '../stores/user'
+import LoginView from '../views/auth/LoginView.vue'
+import NewOrderView from '../views/customer/NewOrderView.vue'
 
 const routes = [
   { path: '/', name: 'home', component: HomeView },
   { path: '/services', name: 'services', component: ServicesView },
   { path: '/providers', name: 'providers', component: ProvidersListView },
-
+  { path: '/login', name: 'login', component: LoginView },
   {
     path: '/dashboard/customer',
     component: CustomerLayout,
@@ -21,7 +23,12 @@ const routes = [
         path: '',
         name: 'CustomerDashboard',
         component: CustomerDashboard
-      }
+      },
+      {
+        path: '/dashboard/customer/new',
+        name: 'NewOrder',
+        component: NewOrderView
+      },
     ]
   },
   {

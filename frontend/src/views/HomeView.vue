@@ -3,6 +3,8 @@
     <SearchBarDisplay @activate="searchOpen = true" />
     <SearchModal :visible="searchOpen" @close="searchOpen = false" />
 
+    <router-link to="/login">ورود</router-link>
+
     <!-- دسته‌بندی خدمات -->
     <div class="mt-6">
       <h2 class="text-sm font-semibold text-gray-800 mb-3">Homino Services</h2>

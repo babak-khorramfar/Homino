@@ -8,18 +8,17 @@ from django.utils import timezone
 
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, phone, password=None, **extra_fields):
+    def create_user(self, phone, **extra_fields):
         if not phone:
             raise ValueError("Phone number is required")
         user = self.model(phone=phone, **extra_fields)
-        user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, phone, password=None, **extra_fields):
+    def create_superuser(self, phone, **extra_fields):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
-        return self.create_user(phone, password, **extra_fields)
+        return self.create_user(phone, **extra_fields)
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
@@ -50,3 +49,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         self.deleted_at = timezone.now()
         self.is_active = False
         self.save()
+
+    def set_password(self, raw_password):
+        pass
+
+    def check_password(self, raw_password):
+        return False
